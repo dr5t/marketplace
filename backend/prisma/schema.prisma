@@ -101,6 +101,23 @@ model Review {
   product Product @relation(fields: [productId], references: [id])
 }
 
+model SiteConfig {
+  id          String @id @default("default")
+  heroTitle   String @default("Discover Crochet Magic")
+  heroSub     String @default("Unique, handmade crochet pieces from independent artisans.")
+  footerText  String @default("© 2026 Vrindaa. Handcrafted with love.")
+  headerTitle String @default("Vrindaa")
+  updatedAt   DateTime @updatedAt
+}
+
+model Feedback {
+  id        String   @id @default(uuid())
+  rating    Int
+  comment   String
+  imageUrl  String?
+  createdAt DateTime @default(now())
+}
+
 enum Role {
   USER
   SELLER
