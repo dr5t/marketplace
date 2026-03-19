@@ -68,7 +68,7 @@ export default function ProductCard({ product }: { product: Product }) {
       <div className="flex flex-col flex-1">
         <div className="flex justify-between items-start mb-1">
           <p className="text-[10px] font-bold text-[#7FD8FF] uppercase tracking-widest">
-            {product.category || "Handcrafted"}
+            {typeof product.category === 'object' ? (product.category as any).name : (product.category || "Handcrafted")}
           </p>
           <div className="flex items-center gap-1">
             <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
