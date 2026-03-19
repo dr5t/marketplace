@@ -18,6 +18,7 @@ model User {
   sellerProfile SellerProfile?
   orders        Order[]
   reviews       Review[]
+  feedbacks     Feedback[]
   cartItems     CartItem[]
 }
 
