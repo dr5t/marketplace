@@ -59,7 +59,7 @@ export default function HomePage() {
             Handcrafted with love
           </div>
           
-          <h1 className="text-6xl md:text-8xl font-bold mb-8 leading-[1.1] tracking-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <h1 className="text-6xl md:text-8xl font-bold mb-8 leading-[1.1] tracking-tight">
             {config?.heroTitle.split(" ").slice(0, -1).join(" ") || "Discover"}{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7FD8FF] to-[#CDB4FF]">
               {config?.heroTitle.split(" ").slice(-1) || "Crochet"}
@@ -115,7 +115,7 @@ export default function HomePage() {
       <section id="shop-section" className="relative z-10 max-w-7xl mx-auto px-6 pb-32">
         <div className="flex items-end justify-between mb-12 px-2">
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
               {activeCategory === "All" ? "Featured Collections" : activeCategory}
             </h2>
             <div className="h-1 w-20 bg-gradient-to-r from-[#7FD8FF] to-transparent rounded-full" />
