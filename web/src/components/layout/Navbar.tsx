@@ -92,21 +92,19 @@ export default function Navbar() {
           <motion.button whileHover={{ scale: 1.1 }} className="p-2 rounded-full hover:bg-blue-50">
             <Heart className="w-5 h-5 text-gray-500" />
           </motion.button>
-          <Link href="/cart">
-            <motion.button whileHover={{ scale: 1.1 }} className="p-2 rounded-full hover:bg-blue-50 relative">
-              <ShoppingCart className="w-5 h-5 text-gray-500" />
+          <Link href="/cart" className="relative group p-2 rounded-2xl hover:bg-white/50 transition-all flex items-center justify-center">
+              <ShoppingCart className="w-5 h-5 text-gray-400 group-hover:text-[#7FD8FF] transition-colors" />
               {totalItems > 0 && (
                 <motion.span 
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="absolute -top-1 -right-1 w-4 h-4 text-[10px] rounded-full text-white flex items-center justify-center font-bold"
-                  style={{ background: "linear-gradient(135deg, #7FD8FF, #CDB4FF)" }}
+                  initial={{ scale: 0 }} 
+                  animate={{ scale: 1 }} 
+                  className="absolute -top-1 -right-1 w-5 h-5 bg-[#7FD8FF] text-white text-[10px] font-black rounded-full flex items-center justify-center shadow-lg shadow-[#7FD8FF]/40 border-2 border-white"
+                  style={{ boxShadow: "0 0 15px rgba(127, 216, 255, 0.6)" }}
                 >
                   {totalItems}
                 </motion.span>
               )}
-            </motion.button>
-          </Link>
+            </Link>
           
           {user ? (
             <div className="flex items-center gap-2">
