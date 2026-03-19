@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+/* =====================================================
+   Vrindaa Crochet — Liquid UI Global Styles
+   Premium Soft Liquid Color Palette
+   ===================================================== */
+
+:root {
+  --color-primary: #7FD8FF;
+  --color-secondary: #CDB4FF;
+  --color-accent: #FFC8A2;
+  --color-bg: #F8FAFF;
+  --color-surface: #FFFFFF;
+  --color-text: #1A1A1A;
+  --color-text-muted: #6B7280;
+
+  --gradient-liquid: linear-gradient(135deg, #7FD8FF, #CDB4FF);
+  --gradient-peach: linear-gradient(135deg, #FFC8A2, #FFDEE9);
+  --gradient-ocean: linear-gradient(120deg, #89f7fe, #66a6ff);
+
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.07);
+  --shadow-liquid: 0 12px 40px rgba(127, 216, 255, 0.25);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  overflow-x: hidden;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Liquid utility classes – pure CSS (no @apply needed for Tailwind v4) */
+
+.liquid-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: var(--gradient-liquid);
+  box-shadow: var(--shadow-liquid);
+  border: none;
+}
+
+.liquid-btn:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 16px 48px rgba(127, 216, 255, 0.35);
+}
+
+.liquid-btn:active { transform: scale(0.97); }
+
+.liquid-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.liquid-card {
+  border-radius: 1.5rem;
+  background: white;
+  padding: 1.25rem;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-card);
+}
+
+.liquid-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-liquid);
+}
+
+.liquid-input {
+  width: 100%;
+  padding: 0.75rem 1.25rem;
+  border-radius: 9999px;
+  background: white;
+  border: 1.5px solid transparent;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  color: var(--color-text);
+}
+
+.liquid-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(127, 216, 255, 0.2);
+}
+
+.liquid-input::placeholder { color: #9CA3AF; }
+
+/* Blob morphing animation */
+@keyframes morphBlob {
+  0%, 100% { border-radius: 40% 60% 60% 40% / 40% 50% 60% 50%; }
+  33%       { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  66%       { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+
+.float { animation: float 4s ease-in-out infinite; }
