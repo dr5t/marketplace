@@ -27,13 +27,16 @@ const Liquid3D = dynamic(() => import('@/components/liquid/Liquid3D'), {
   loading: () => <div className="w-full h-[400px] bg-sky-50 animate-pulse rounded-[3rem]" />
 });
 
+import { useCart } from "@/context/CartContext";
+
 export default function ProductDetailClient({ id }: { id: string }) {
+  const { addToCart } = useCart();
   const [activeImg, setActiveImg] = useState(0);
   const [adding, setAdding]       = useState(false);
   const [view3D, setView3D]       = useState(false);
 
   const handleAddToCart = () => {
-    console.log("Adding product to cart:", id);
+    addToCart(PLACEHOLDER_PRODUCT as any);
     setAdding(true);
     setTimeout(() => setAdding(false), 2000);
   };

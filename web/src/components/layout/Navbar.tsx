@@ -7,11 +7,13 @@ import { ShoppingCart, Heart, User, Bell, LogOut } from "lucide-react";
 import LiquidButton from "../liquid/LiquidButton";
 import { useAuth } from "@/hooks/useAuth";
 import { useFirestore } from "@/hooks/useFirestore";
+import { useCart } from "@/context/CartContext";
 import { useState, useEffect } from "react";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
   const { lastUpdate } = useFirestore("products");
+  const { totalItems } = useCart();
   const [notifications, setNotifications] = useState<any[]>([]);
   const [showNotification, setShowNotification] = useState(false);
 
@@ -93,8 +95,16 @@ export default function Navbar() {
           <Link href="/cart">
             <motion.button whileHover={{ scale: 1.1 }} className="p-2 rounded-full hover:bg-blue-50 relative">
               <ShoppingCart className="w-5 h-5 text-gray-500" />
-              <span className="absolute -top-1 -right-1 w-4 h-4 text-xs rounded-full text-white flex items-center justify-center"
-                style={{ background: "linear-gradient(135deg, #7FD8FF, #CDB4FF)" }}>0</span>
+              {totalItems > 0 && (
+                <motion.span 
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  className="absolute -top-1 -right-1 w-4 h-4 text-[10px] rounded-full text-white flex items-center justify-center font-bold"
+                  style={{ background: "linear-gradient(135deg, #7FD8FF, #CDB4FF)" }}
+                >
+                  {totalItems}
+                </motion.span>
+              )}
             </motion.button>
           </Link>
           

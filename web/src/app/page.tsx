@@ -10,22 +10,23 @@ import { useState } from "react";
 const CATEGORIES = ["All", "Toys", "Apparel", "Home Decor", "Accessories", "Commissions"];
 
 const MOCK_PRODUCTS = [
-  { id: "1", title: "Sunflower Amigurumi", price: 399, images: [], rating: 4.8, seller: { storeName: "Cottage Threads" } },
-  { id: "2", title: "Winter Beanie Hat",   price: 549, images: [], rating: 4.5, seller: { storeName: "Yarn & Soul" } },
-  { id: "3", title: "Cottagecore Table Runner", price: 799, images: [], rating: 4.9, seller: { storeName: "Bloom Crafts" } },
-  { id: "4", title: "Boho Wall Hanging",   price: 699, images: [], rating: 4.6, seller: { storeName: "Cottage Threads" } },
-  { id: "5", title: "Teddy Bear Doll",     price: 449, images: [], rating: 5.0, seller: { storeName: "Yarn & Soul" } },
-  { id: "6", title: "Market Tote Bag",     price: 349, images: [], rating: 4.7, seller: { storeName: "Bloom Crafts" } },
+  { id: "1", title: "Sunflower Amigurumi", price: 399, images: [], rating: 4.8, category: "Toys", seller: { storeName: "Cottage Threads" } },
+  { id: "2", title: "Winter Beanie Hat",   price: 549, images: [], rating: 4.5, category: "Apparel", seller: { storeName: "Yarn & Soul" } },
+  { id: "3", title: "Cottagecore Table Runner", price: 799, images: [], rating: 4.9, category: "Home Decor", seller: { storeName: "Bloom Crafts" } },
+  { id: "4", title: "Boho Wall Hanging",   price: 699, images: [], rating: 4.6, category: "Home Decor", seller: { storeName: "Cottage Threads" } },
+  { id: "5", title: "Teddy Bear Doll",     price: 449, images: [], rating: 5.0, category: "Toys", seller: { storeName: "Yarn & Soul" } },
+  { id: "6", title: "Market Tote Bag",     price: 349, images: [], rating: 4.7, category: "Accessories", seller: { storeName: "Bloom Crafts" } },
 ];
 
 export default function HomePage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchTerm, setSearchTerm]         = useState("");
 
-  const filtered = MOCK_PRODUCTS.filter((p) =>
-    (activeCategory === "All" || true) &&
-    p.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filtered = MOCK_PRODUCTS.filter((p) => {
+    const matchesSearch = p.title.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = activeCategory === "All" || p.category === activeCategory;
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <div className="relative min-h-screen overflow-hidden">
@@ -48,23 +49,29 @@ export default function HomePage() {
           <p className="text-gray-500 text-lg max-w-xl mx-auto mb-8">
             Unique, handmade crochet pieces from independent artisans. Every stitch tells a story.
           </p>
-          <div className="flex gap-3 justify-center">
-            <LiquidButton>Shop Now</LiquidButton>
-            <LiquidButton variant="peach">Become a Seller</LiquidButton>
+          <div className="flex gap-4 justify-center">
+            <LiquidButton onClick={() => document.getElementById("shop-section")?.scrollIntoView({ behavior: "smooth" })}>
+              Shop Now
+            </LiquidButton>
+            <Link href="/seller">
+              <LiquidButton variant="peach">Become a Seller</LiquidButton>
+            </Link>
           </div>
         </motion.div>
       </section>
 
       {/* Search & Filter */}
-      <section className="relative z-10 max-w-3xl mx-auto px-6 mb-10">
-        <LiquidSearch onSearch={setSearchTerm} />
-        <div className="flex gap-3 mt-5 overflow-x-auto pb-1">
+      <section className="relative z-10 max-w-4xl mx-auto px-6 mb-10">
+        <div className="liquid-card !p-2 !rounded-full mb-6">
+          <LiquidSearch onSearch={setSearchTerm} />
+        </div>
+        <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-hide no-scrollbar">
           {CATEGORIES.map((cat) => (
             <LiquidButton
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`text-sm font-medium whitespace-nowrap px-5 py-2 !rounded-full`}
-              variant={activeCategory === cat ? "primary" : "ocean"}
+              className={`text-sm font-medium whitespace-nowrap px-6 py-2.5 !rounded-full`}
+              variant={activeCategory === cat ? "primary" : "ghost"}
             >
               {cat}
             </LiquidButton>
@@ -73,23 +80,31 @@ export default function HomePage() {
       </section>
 
       {/* Products Grid */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 pb-20">
-        <h2 className="text-2xl font-bold mb-6 text-gray-800">
-          {activeCategory === "All" ? "Featured Products" : activeCategory}
-        </h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-          {filtered.map((product, i) => (
-            <motion.div
-              key={product.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.07, type: "spring", stiffness: 150 }}
-            >
-              <ProductCard product={product} />
-            </motion.div>
-          ))}
+      <section id="shop-section" className="relative z-10 max-w-7xl mx-auto px-6 pb-20">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>
+            {activeCategory === "All" ? "Featured Collections" : activeCategory}
+          </h2>
+          <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">
+            {filtered.length} items found
+          </span>
         </div>
+        
+        {filtered.length > 0 ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {filtered.map((product, i) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-20">
+            <span className="text-5xl mb-4 block">🧶</span>
+            <p className="text-gray-400">No products found in this category.</p>
+          </div>
+        )}
       </section>
     </div>
   );
 }
+
+import Link from "next/link";

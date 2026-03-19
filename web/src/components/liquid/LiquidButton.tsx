@@ -1,73 +1,124 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ReactNode } from "react";
+import React from "react";
 
-interface LiquidButtonProps {
-  children: ReactNode;
-  onClick?: () => void;
-  variant?: "primary" | "peach" | "ocean";
-  className?: string;
-  type?: "button" | "submit";
-  disabled?: boolean;
+interface LiquidButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: "primary" | "ocean" | "peach" | "ghost";
+  glowColor?: string;
 }
 
-const variants = {
+const VARIANTS = {
   primary: {
-    border: "linear-gradient(90deg, #ff00cc, #3333ff)",
-    glow: "0 0 15px rgba(255, 0, 204, 0.5), 0 0 30px rgba(51, 51, 255, 0.4)",
-    hoverGlow: "0 0 25px rgba(255, 0, 204, 0.8), 0 0 50px rgba(51, 51, 255, 0.6)",
-  },
-  peach: {
-    border: "linear-gradient(90deg, #FF6B6B, #FFB88C)",
-    glow: "0 0 15px rgba(255, 107, 107, 0.5), 0 0 30px rgba(255, 184, 140, 0.4)",
-    hoverGlow: "0 0 25px rgba(255, 107, 107, 0.8), 0 0 50px rgba(255, 184, 140, 0.6)",
+    bg: "#0a0f1e",
+    border: ["#7FD8FF", "#CDB4FF", "#7FD8FF"],
+    glow: "#7FD8FF",
+    text: "#7FD8FF",
   },
   ocean: {
-    border: "linear-gradient(90deg, #00d2ff, #3a7bd5)",
-    glow: "0 0 15px rgba(0, 210, 255, 0.5), 0 0 30px rgba(58, 123, 213, 0.4)",
-    hoverGlow: "0 0 25px rgba(0, 210, 255, 0.8), 0 0 50px rgba(58, 123, 213, 0.6)",
+    bg: "#0a1428",
+    border: ["#00C6FF", "#0072FF", "#00C6FF"],
+    glow: "#00C6FF",
+    text: "#00C6FF",
+  },
+  peach: {
+    bg: "#1e0f0a",
+    border: ["#FFC8A2", "#FF9E7D", "#FFC8A2"],
+    glow: "#FFC8A2",
+    text: "#FFC8A2",
+  },
+  ghost: {
+    bg: "transparent",
+    border: ["rgba(255,255,255,0.1)", "rgba(255,255,255,0.1)"],
+    glow: "rgba(255,255,255,0)",
+    text: "#6B7280",
   },
 };
 
 export default function LiquidButton({
   children,
-  onClick,
   variant = "primary",
+  glowColor,
   className = "",
-  type = "button",
-  disabled = false,
+  ...props
 }: LiquidButtonProps) {
-  const currentVariant = variants[variant];
-  const isWFull = className.includes("w-full");
+  const v = VARIANTS[variant];
+  const activeGlow = glowColor || v.glow;
+
+  // Type safe props for motion.button
+  const motionProps: any = { ...props };
 
   return (
-    <div className={`relative p-[1.5px] rounded-full sm:inline-block ${isWFull ? "w-full block" : "inline-block"} ${className}`}
-         style={{ background: currentVariant.border, boxShadow: currentVariant.glow }}>
-      <motion.button
-        type={type}
-        onClick={onClick}
-        disabled={disabled}
-        whileTap={{ scale: 0.96 }}
-        whileHover={{ 
-            scale: 1.02,
-            boxShadow: currentVariant.hoverGlow
-        }}
-        transition={{ type: "spring", stiffness: 400, damping: 20 }}
-        className={`w-full h-full rounded-full text-white font-medium 
-                   bg-black/80 backdrop-blur-md flex items-center justify-center 
-                   transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed border-none outline-none
-                   ${className.includes("px-") ? "" : "px-8"} ${className.includes("py-") ? "" : "py-3"}`}
+    <motion.button
+      whileHover="hover"
+      whileTap="tap"
+      className={`relative group flex items-center justify-center font-bold tracking-tight transition-all active:scale-95 ${className}`}
+      style={{
+        background: v.bg,
+        backdropFilter: "blur(20px)",
+        borderRadius: "9999px",
+        padding: "0.875rem 2rem",
+        border: "1px solid transparent",
+        color: v.text,
+      }}
+      {...motionProps}
+    >
+      {/* Animated Liquid Border */}
+      <motion.div 
+        className="absolute inset-0 rounded-full p-[1.5px] -z-10"
         style={{
-            fontFamily: "'Inter', sans-serif",
-            letterSpacing: "0.025em",
-            boxShadow: "inset 0 1.5px 2px rgba(255,255,255,0.2), inset 0 -1.5px 2px rgba(0,0,0,0.4)"
+          background: `linear-gradient(90deg, ${v.border.join(", ")})`,
+          backgroundSize: "200% 100%",
+          mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          maskComposite: "exclude",
+          WebkitMaskComposite: "destination-out",
         }}
-      >
-        <span className="relative z-10 flex items-center gap-2">
-            {children}
-        </span>
-      </motion.button>
-    </div>
+        animate={{
+          backgroundPosition: ["0% 50%", "100% 50%", "200% 50%"],
+        }}
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          ease: "linear",
+        }}
+      />
+
+      {/* Extreme Neon Soft Glow */}
+      <motion.div
+        variants={{
+          hover: { opacity: 0.9, scale: 1.15, filter: "blur(35px)" },
+        }}
+        initial={{ opacity: 0.4, scale: 1, filter: "blur(20px)" }}
+        animate={{
+          opacity: [0.3, 0.5, 0.3],
+          scale: [1, 1.02, 1],
+        }}
+        transition={{
+          duration: 3,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+        className="absolute inset-0 pointer-events-none -z-20"
+        style={{
+          background: activeGlow,
+          borderRadius: "9999px",
+        }}
+      />
+
+      {/* Internal Shimmer */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden rounded-full">
+        <motion.div 
+          animate={{ x: ["-100%", "250%"] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "linear", delay: 1 }}
+          className="absolute inset-0 w-1/3 h-full skew-x-12 opacity-10"
+          style={{ background: "linear-gradient(90deg, transparent, white, transparent)" }}
+        />
+      </div>
+
+      <span className="relative z-10 flex items-center gap-2 drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">
+        {children}
+      </span>
+    </motion.button>
   );
 }

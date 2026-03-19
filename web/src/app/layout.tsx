@@ -13,12 +13,16 @@ export const metadata: Metadata = {
   openGraph: { title: "Vrindaa Crochet", description: "Premium crochet marketplace", type: "website" },
 };
 
+import { CartProvider } from "@/context/CartContext";
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable} ${outfit.variable}`}>
-      <body style={{ background: "#F8FAFF" }}>
-        <Navbar />
-        <main>{children}</main>
+    <html lang="en" className={`${inter.variable} ${playfair.variable} ${outfit.variable}`} suppressHydrationWarning>
+      <body suppressHydrationWarning>
+        <CartProvider>
+          <Navbar />
+          <main>{children}</main>
+        </CartProvider>
       </body>
     </html>
   );

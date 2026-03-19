@@ -59,16 +59,50 @@ body {
 }
 
 .liquid-card {
-  border-radius: 1.5rem;
-  background: white;
-  padding: 1.25rem;
-  transition: all 0.3s ease;
-  box-shadow: var(--shadow-card);
+  position: relative;
+  border-radius: 2rem;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  padding: 1.5rem;
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  z-index: 1;
+  overflow: hidden;
+}
+
+.liquid-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 2rem;
+  padding: 2px;
+  background: linear-gradient(135deg, #7FD8FF, #CDB4FF, #FFC8A2, #7FD8FF);
+  background-size: 300% 300%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: destination-out;
+  opacity: 0.3;
+  transition: opacity 0.5s;
+  pointer-events: none;
+  animation: moveGradient 6s linear infinite;
 }
 
 .liquid-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-liquid);
+  transform: translateY(-12px) scale(1.02);
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 40px 80px rgba(127, 216, 255, 0.25);
+}
+
+.liquid-card:hover::before {
+  opacity: 1;
+}
+
+@keyframes moveGradient {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .liquid-input {
