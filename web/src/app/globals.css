@@ -20,6 +20,10 @@
 
   --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.07);
   --shadow-liquid: 0 12px 40px rgba(127, 216, 255, 0.25);
+
+  --font-neofolia: 'Neofolia', sans-serif;
+  --font-inter: 'Inter', sans-serif;
+  --font-playfair: 'Playfair Display', serif;
 }
 
 html { scroll-behavior: smooth; }
@@ -76,6 +80,7 @@ body {
   position: absolute;
   inset: 0;
   border-radius: 2rem;
+  border-radius: 2.5rem; /* Adjusted from 2rem to 2.5rem */
   padding: 2px;
   background: linear-gradient(135deg, #7FD8FF, #CDB4FF, #FFC8A2, #7FD8FF);
   background-size: 300% 300%;
@@ -90,9 +95,9 @@ body {
 }
 
 .liquid-card:hover {
-  transform: translateY(-12px) scale(1.02);
+  transform: translateY(-8px) scale(1.02); /* Adjusted translateY from -12px to -8px */
   background: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 40px 80px rgba(127, 216, 255, 0.25);
+  box-shadow: 0 20px 60px -20px rgba(0,0,0,0.1), 0 0 40px rgba(127, 216, 255, 0.2); /* Updated */
 }
 
 .liquid-card:hover::before {
@@ -103,6 +108,33 @@ body {
   0%   { background-position: 0% 50%; }
   50%  { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
+}
+
+/* Minimal Neon Card for Feedback */
+.neon-card {
+  position: relative;
+  padding: 1.5rem; /* Adjusted from 6 to 1.5rem for consistency */
+  border-radius: 1.5rem; /* Adjusted from 3xl to 1.5rem for consistency */
+  background: rgba(255,255,255,0.4);
+  backdrop-filter: blur(12px); /* Adjusted from md to 12px */
+  border: 1px solid rgba(255,255,255,0.5);
+  overflow: hidden;
+  background: linear-gradient(160deg, rgba(255,255,255,0.4), rgba(127, 216, 255, 0.05));
+  box-shadow: 0 4px 15px rgba(0,0,0,0.02), inset 0 0 20px rgba(255,255,255,0.5);
+}
+
+.neon-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.5s;
+  pointer-events: none;
+  box-shadow: inset 0 0 30px rgba(127, 216, 255, 0.2), 0 0 15px rgba(127, 216, 255, 0.1);
+}
+
+.neon-card:hover::after {
+  opacity: 1;
 }
 
 .liquid-input {

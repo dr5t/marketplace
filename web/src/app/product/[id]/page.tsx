@@ -5,5 +5,9 @@ export async function generateStaticParams() {
 }
 
 export default function ProductDetailPage({ params }: { params: { id: string } }) {
-  return <ProductDetailClient id={params.id} />;
+  return (
+    <div className="relative min-h-screen no-neofolia page-product-detail">
+      <ProductDetailClient id={params.id} />
+    </div>
+  );
 }

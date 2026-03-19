@@ -32,7 +32,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center px-6">
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden no-neofolia page-login">
       <Blob className="w-80 h-80 -top-10 -left-10" />
       <Blob className="w-64 h-64 bottom-10 right-0" gradient="linear-gradient(135deg, #FFC8A2, #FFDEE9)" />
 
