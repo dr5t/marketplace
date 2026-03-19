@@ -6,6 +6,7 @@ import Blob from "@/components/liquid/Blob";
 import LiquidButton from "@/components/liquid/LiquidButton";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -41,10 +42,17 @@ export default function LoginPage() {
         transition={{ type: "spring", stiffness: 120 }}
         className="relative z-10 liquid-card w-full max-w-md"
       >
-        <div className="text-center mb-8">
+        <div className="text-center mb-8 flex flex-col items-center">
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            className="relative w-16 h-16 mb-4 rounded-full overflow-hidden shadow-md border-2 border-white"
+          >
+            <Image src="/logo.png" alt="Logo" fill className="object-cover" />
+          </motion.div>
           <h1 className="text-3xl font-bold" style={{ fontFamily: "'Playfair Display', serif",
             background: "linear-gradient(135deg, #7FD8FF, #CDB4FF)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-            Welcome Back 🧶
+            Welcome Back
           </h1>
           <p className="text-gray-500 text-sm mt-1">Sign in to your Vrindaa account</p>
         </div>

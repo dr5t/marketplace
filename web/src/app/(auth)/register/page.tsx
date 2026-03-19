@@ -6,6 +6,7 @@ import Blob from "@/components/liquid/Blob";
 import LiquidButton from "@/components/liquid/LiquidButton";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const ROLES = ["USER", "SELLER"];
 
@@ -43,7 +44,14 @@ export default function RegisterPage() {
         transition={{ type: "spring", stiffness: 120 }}
         className="relative z-10 liquid-card w-full max-w-md"
       >
-        <div className="text-center mb-8">
+        <div className="text-center mb-8 flex flex-col items-center">
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            className="relative w-16 h-16 mb-4 rounded-full overflow-hidden shadow-md border-2 border-white"
+          >
+            <Image src="/logo.png" alt="Logo" fill className="object-cover" />
+          </motion.div>
           <h1 className="text-3xl font-bold" style={{ fontFamily: "'Playfair Display', serif",
             background: "linear-gradient(135deg, #CDB4FF, #FFC8A2)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
             Join Vrindaa ✨

@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingCart, Heart, User, Bell, LogOut } from "lucide-react";
 import LiquidButton from "../liquid/LiquidButton";
 import { useAuth } from "@/hooks/useAuth";
 import { useFirestore } from "@/hooks/useFirestore";
 import { useState, useEffect } from "react";
-import { AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -32,11 +32,21 @@ export default function Navbar() {
       style={{ boxShadow: "0 2px 24px rgba(127,216,255,0.12)" }}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        {/* ... (Logo and Nav Links stay the same) ... */}
-        <Link href="/">
+        <Link href="/" className="flex items-center gap-3">
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            className="relative w-10 h-10 rounded-full overflow-hidden shadow-sm border border-gray-100"
+          >
+            <Image 
+                src="/logo.png" 
+                alt="Vrindaa Crochet Logo" 
+                fill 
+                className="object-cover"
+            />
+          </motion.div>
           <motion.span
             whileHover={{ scale: 1.05 }}
-            className="text-2xl font-bold"
+            className="text-2xl font-bold hidden sm:block"
             style={{
               background: "linear-gradient(135deg, #7FD8FF, #CDB4FF)",
               WebkitBackgroundClip: "text",
@@ -44,7 +54,7 @@ export default function Navbar() {
               fontFamily: "'Playfair Display', serif",
             }}
           >
-            🧶 Vrindaa
+            Vrindaa
           </motion.span>
         </Link>
 
