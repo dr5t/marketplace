@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingCart, Heart, User, Bell, LogOut } from "lucide-react";
+import { Star, ShoppingCart, Heart, Zap, User, Layout, Crown, Bell, LogOut } from "lucide-react";
 import LiquidButton from "../liquid/LiquidButton";
 import { useAuth } from "@/hooks/useAuth";
 import { useFirestore } from "@/hooks/useFirestore";
@@ -107,13 +107,17 @@ export default function Navbar() {
             </Link>
           
           {user ? (
-            <div className="flex items-center gap-2">
-              <motion.button 
-                whileHover={{ scale: 1.05 }}
-                className="flex items-center gap-2 px-3 py-2 rounded-xl bg-blue-50 text-blue-600 text-sm font-medium"
-              >
-                <User className="w-4 h-4" /> {user.displayName || user.email?.split("@")[0]}
-              </motion.button>
+            <div className="flex items-center gap-4">
+              {user?.role === 'ADMIN' && (
+                <Link href="/admin" className="p-2.5 rounded-2xl hover:bg-white/50 transition-all text-gray-400 hover:text-amber-400 group relative">
+                   <motion.div animate={{ rotate: [0, 10, -10, 0] }} transition={{ repeat: Infinity, duration: 4 }}>
+                      <Crown className="w-5 h-5" />
+                   </motion.div>
+                </Link>
+              )}
+              <div className="w-8 h-8 rounded-full bg-[#7FD8FF] flex items-center justify-center text-white font-bold text-xs ring-2 ring-white shadow-soft">
+                {user.displayName?.charAt(0) || user.email?.charAt(0)}
+              </div>
               <motion.button 
                 whileHover={{ scale: 1.1 }}
                 onClick={() => logout()}
