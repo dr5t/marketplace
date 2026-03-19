@@ -20,7 +20,7 @@ export default function Blob({ className = "", gradient }: BlobProps) {
         rotate: [0, 5, -5, 0],
       }}
       transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      className={`absolute blur-3xl opacity-40 ${className}`}
+      className={`absolute blur-3xl opacity-40 pointer-events-none ${className}`}
       style={{
         background: gradient || "linear-gradient(135deg, #7FD8FF, #CDB4FF)",
       }}
