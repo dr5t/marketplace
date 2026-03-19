@@ -21,14 +21,14 @@ export default function LiquidSearch({ onSearch, placeholder = "Search crochet..
       animate={controls}
       className="relative w-full"
     >
-      <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#7FD8FF] w-5 h-5" />
+      <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-[#7FD8FF] w-5 h-5 opacity-70" />
       <input
         value={value}
         onChange={(e) => { setValue(e.target.value); onSearch(e.target.value); }}
         onFocus={handleFocus}
         onBlur={handleBlur}
         placeholder={placeholder}
-        className="liquid-input pl-12"
+        className="liquid-input pl-14 pr-6 py-4 text-sm bg-white/40 backdrop-blur-md border-white/50"
       />
     </motion.div>
   );

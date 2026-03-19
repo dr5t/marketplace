@@ -9,6 +9,8 @@ import authRoutes from './routes/authRoutes';
 import cartRoutes from './routes/cartRoutes';
 import paymentRoutes from './routes/paymentRoutes';
 import productRoutes from './routes/productRoutes';
+import adminRoutes from './routes/adminRoutes';
+import feedbackRoutes from './routes/feedbackRoutes';
 
 import { createServer } from 'http';
 import { Server } from 'socket.io';
@@ -37,6 +39,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/feedback', feedbackRoutes);
 
 app.get('/health', (_req, res) => {
   res.json({ status: 'OK', message: '🧶 Vrindaa Crochet Backend is running' });

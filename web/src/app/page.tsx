@@ -7,6 +7,7 @@ import LiquidButton from "@/components/liquid/LiquidButton";
 import ProductCard from "@/components/product/ProductCard";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import FeedbackSection from "@/components/feedback/FeedbackSection";
 
 const CATEGORIES = ["All", "Toys", "Apparel", "Home Decor", "Accessories", "Commissions"];
 
@@ -15,20 +16,26 @@ export default function HomePage() {
   const [searchTerm, setSearchTerm]         = useState("");
   const [products, setProducts]             = useState<any[]>([]);
   const [loading, setLoading]               = useState(true);
+  const [config, setConfig]                 = useState<any>(null);
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchData = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`);
-        const data = await res.json();
-        setProducts(data);
+        const [prodRes, configRes] = await Promise.all([
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`),
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/config`)
+        ]);
+        const prodData = await prodRes.json();
+        const configData = await configRes.json();
+        setProducts(prodData);
+        setConfig(configData);
       } catch (err) {
-        console.error("Failed to fetch products:", err);
+        console.error("Failed to fetch data:", err);
       } finally {
         setLoading(false);
       }
     };
-    fetchProducts();
+    fetchData();
   }, []);
 
   const filtered = products.filter((p) => {
@@ -53,15 +60,15 @@ export default function HomePage() {
           </div>
           
           <h1 className="text-6xl md:text-8xl font-bold mb-8 leading-[1.1] tracking-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
-            Discover <br/>
+            {config?.heroTitle.split(" ").slice(0, -1).join(" ") || "Discover"}{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7FD8FF] to-[#CDB4FF]">
-              Crochet
+              {config?.heroTitle.split(" ").slice(-1) || "Crochet"}
             </span>{" "}
             Magic
           </h1>
           
           <p className="text-gray-400 text-xl max-w-2xl mx-auto mb-12 font-medium leading-relaxed">
-            Unique, handmade crochet pieces from independent artisans. Join a community where every stitch tells a story.
+            {config?.heroSub || "Unique, handmade crochet pieces from independent artisans. Join a community where every stitch tells a story."}
           </p>
           
           <div className="flex flex-wrap gap-4 justify-center">
@@ -148,6 +155,8 @@ export default function HomePage() {
           </motion.div>
         )}
       </section>
+
+      <FeedbackSection />
 
       {/* Decorative Footer Shape */}
       <div className="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-t from-white to-transparent pointer-events-none -z-10" />
