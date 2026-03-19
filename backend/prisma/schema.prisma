@@ -115,6 +115,8 @@ model Feedback {
   rating    Int
   comment   String
   imageUrl  String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
 }
 
