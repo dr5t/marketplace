@@ -70,13 +70,15 @@ export default function RegisterPage() {
             <label className="text-xs font-medium text-gray-600 mb-1 block">I want to</label>
             <div className="flex gap-3">
               {ROLES.map((r) => (
-                <button key={r} type="button" onClick={() => setForm({ ...form, role: r })}
-                  className={`flex-1 py-2 rounded-full text-sm font-medium border transition-all ${
-                    form.role === r ? "text-white border-transparent" : "bg-white text-gray-600 border-gray-200"
-                  }`}
-                  style={form.role === r ? { background: "linear-gradient(135deg, #7FD8FF, #CDB4FF)" } : {}}>
+                <LiquidButton 
+                  key={r} 
+                  type="button" 
+                  onClick={() => setForm({ ...form, role: r })}
+                  className="flex-1"
+                  variant={form.role === r ? "primary" : "ocean"}
+                >
                   {r === "USER" ? "🛒 Buy" : "🧶 Sell"}
-                </button>
+                </LiquidButton>
               ))}
             </div>
           </div>

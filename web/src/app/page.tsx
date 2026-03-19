@@ -60,19 +60,14 @@ export default function HomePage() {
         <LiquidSearch onSearch={setSearchTerm} />
         <div className="flex gap-3 mt-5 overflow-x-auto pb-1">
           {CATEGORIES.map((cat) => (
-            <motion.button
+            <LiquidButton
               key={cat}
-              whileTap={{ scale: 0.95 }}
               onClick={() => setActiveCategory(cat)}
-              className={`px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
-                activeCategory === cat
-                  ? "text-white shadow-md"
-                  : "bg-white text-gray-600 shadow-sm hover:shadow"
-              }`}
-              style={activeCategory === cat ? { background: "linear-gradient(135deg, #7FD8FF, #CDB4FF)" } : {}}
+              className={`text-sm font-medium whitespace-nowrap px-5 py-2 !rounded-full`}
+              variant={activeCategory === cat ? "primary" : "ocean"}
             >
               {cat}
-            </motion.button>
+            </LiquidButton>
           ))}
         </div>
       </section>

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Star, ShoppingCart, Heart } from "lucide-react";
+import LiquidButton from "@/components/liquid/LiquidButton";
 
 interface Product {
   id: string;
@@ -56,13 +57,12 @@ export default function ProductCard({ product }: { product: Product }) {
           <span className="text-lg font-bold" style={{ background: "linear-gradient(135deg, #7FD8FF, #CDB4FF)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
             ₹{product.price}
           </span>
-          <motion.button
-            whileTap={{ scale: 0.9 }} whileHover={{ scale: 1.05 }}
-            className="p-2 rounded-full text-white"
-            style={{ background: "linear-gradient(135deg, #7FD8FF, #CDB4FF)" }}
+          <LiquidButton
+            className="p-3 !rounded-full"
+            variant="primary"
           >
             <ShoppingCart className="w-4 h-4" />
-          </motion.button>
+          </LiquidButton>
         </div>
       </div>
     </motion.div>

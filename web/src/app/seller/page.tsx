@@ -91,9 +91,9 @@ export default function SellerPage() {
             Setup takes less than 5 minutes. No credit card required to get started.
           </p>
           <Link href="/register">
-            <button className="relative z-10 bg-white text-[#7FD8FF] font-bold px-10 py-4 rounded-full shadow-xl hover:shadow-2xl hover:scale-105 transition-all">
+            <LiquidButton className="px-10 py-4 text-lg">
               Create Your Free Shop
-            </button>
+            </LiquidButton>
           </Link>
         </motion.div>
       </section>

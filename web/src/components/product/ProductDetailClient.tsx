@@ -52,12 +52,13 @@ export default function ProductDetailClient({ id }: { id: string }) {
           <div className="space-y-6">
             <div className="flex justify-between items-center mb-2">
                <span className="text-sm font-bold text-gray-400">Visualization</span>
-               <button 
+               <LiquidButton 
                  onClick={() => setView3D(!view3D)}
-                 className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all ${view3D ? 'bg-sky-400 text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
+                 className={`px-4 py-2 !text-xs`}
+                 variant={view3D ? "primary" : "ocean"}
                >
                  <Cube size={14} /> {view3D ? 'View Photos' : 'View in 3D'}
-               </button>
+               </LiquidButton>
             </div>
             
             <motion.div 
@@ -184,9 +185,9 @@ export default function ProductDetailClient({ id }: { id: string }) {
                 </div>
               </div>
               <Link href={PLACEHOLDER_PRODUCT.seller.storeUrl}>
-                <button className="px-5 py-2 rounded-full border border-sky-200 text-sky-400 text-sm font-bold hover:bg-sky-400 hover:text-white transition-all">
+                <LiquidButton className="px-5 py-2 !text-sm">
                   Visit Store
-                </button>
+                </LiquidButton>
               </Link>
             </div>
           </div>
