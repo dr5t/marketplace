@@ -4,9 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.prisma = void 0;
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const dotenv_1 = __importDefault(require("dotenv"));
 const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const prisma_1 = __importDefault(require("./utils/prisma"));
 exports.prisma = prisma_1.default;
@@ -14,7 +15,6 @@ const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
 const cartRoutes_1 = __importDefault(require("./routes/cartRoutes"));
 const paymentRoutes_1 = __importDefault(require("./routes/paymentRoutes"));
 const productRoutes_1 = __importDefault(require("./routes/productRoutes"));
-dotenv_1.default.config();
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 5001;
 app.use((0, cors_1.default)({

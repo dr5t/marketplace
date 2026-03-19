@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix web\" \"npm run start --prefix mobile\""
+    "dev": "concurrently \"PORT=5001 PRISMA_CLIENT_ENGINE_TYPE=library npm run dev --prefix backend\" \"npm run dev --prefix web\" \"npm run start --prefix mobile\""
   },
   "workspaces": [
     "backend",
@@ -11,6 +11,12 @@
     "mobile"
   ],
   "devDependencies": {
-    "concurrently": "^9.2.1"
+    "@prisma/client": "^6.2.1",
+    "body-parser": "^2.2.2",
+    "concurrently": "^9.2.1",
+    "express": "^5.2.1",
+    "iconv-lite": "^0.7.2",
+    "prisma": "^6.2.1",
+    "raw-body": "^3.0.2"
   }
 }

@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { Server } from 'socket.io';
 import prisma from '../utils/prisma';
 
 export const getProducts = async (req: Request, res: Response): Promise<void> => {
@@ -45,6 +46,21 @@ export const getRecommendations = async (req: Request, res: Response): Promise<v
       take: 4,
     });
     res.json(recommendations);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err });
+  }
+};
+export const createProduct = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const product = await prisma.product.create({
+      data: req.body,
+    });
+    
+    // Emit real-time update
+    const io: Server = req.app.get('io');
+    io.emit('product_created', product);
+
+    res.status(201).json(product);
   } catch (err) {
     res.status(500).json({ message: 'Server error', error: err });
   }
