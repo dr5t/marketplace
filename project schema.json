@@ -1,0 +1,186 @@
+{
+    "project_name": "Vrindaa Crochet Marketplace",
+    "project_type": "Full Stack Multi-Vendor Marketplace (Web + Mobile)",
+    "core_goal": "Build a production-ready crochet marketplace with user, seller, and admin roles, including AI recommendations and a premium iOS-style Liquid UI design system",
+    "platforms": {
+        "web": {
+            "framework": "Next.js (App Router)",
+            "language": "TypeScript",
+            "styling": "Tailwind CSS + ShadCN UI",
+            "animations": "Framer Motion"
+        },
+        "mobile": {
+            "framework": "React Native (Expo)",
+            "styling": "NativeWind",
+            "navigation": "React Navigation",
+            "animations": "React Native Reanimated"
+        }
+    },
+    "backend": {
+        "runtime": "Node.js",
+        "framework": "Express or Next.js API Routes",
+        "authentication": [
+            "JWT (access + refresh tokens)",
+            "Google OAuth"
+        ]
+    },
+    "database": {
+        "type": "PostgreSQL",
+        "orm": "Prisma",
+        "models": [
+            "User",
+            "SellerProfile",
+            "Product",
+            "Category",
+            "Order",
+            "OrderItems",
+            "Review",
+            "Cart",
+            "Wishlist"
+        ]
+    },
+    "storage": {
+        "images": "Cloudinary or AWS S3"
+    },
+    "payments": {
+        "providers": [
+            "Stripe",
+            "Razorpay"
+        ]
+    },
+    "roles": [
+        "Guest",
+        "User (Buyer)",
+        "Seller (Vendor)",
+        "Admin (Super Admin)"
+    ],
+    "features": {
+        "user": [
+            "Browse products",
+            "Advanced search and filters",
+            "Product detail page",
+            "Add to cart",
+            "Wishlist",
+            "Checkout",
+            "Order tracking",
+            "Reviews and ratings",
+            "AI recommendations"
+        ],
+        "seller": [
+            "Seller dashboard",
+            "Add/edit/delete products",
+            "Image upload",
+            "Order management",
+            "Inventory management",
+            "Sales analytics",
+            "Chat with buyers"
+        ],
+        "admin": [
+            "Dashboard analytics",
+            "User management",
+            "Seller approval",
+            "Product moderation",
+            "Order monitoring",
+            "Revenue tracking",
+            "Category management"
+        ]
+    },
+    "ai_features": [
+        "Recommendation engine (collaborative filtering)",
+        "Smart search (fuzzy + semantic)",
+        "Trending product detection",
+        "Optional chatbot"
+    ],
+    "ui_design_system": {
+        "type": "Liquid UI (iOS-inspired)",
+        "avoid": [
+            "Glassmorphism",
+            "Heavy blur effects",
+            "Transparent frosted UI"
+        ],
+        "include": [
+            "Fluid blob animations",
+            "Soft gradient surfaces",
+            "Elastic transitions (spring physics)",
+            "Morphing buttons",
+            "Organic rounded corners",
+            "Dynamic liquid shadows"
+        ],
+        "color_palette": [
+            "Sky Blue",
+            "Lavender",
+            "Peach",
+            "Cream",
+            "Soft Pastels"
+        ],
+        "interactions": [
+            "Liquid ripple on button press",
+            "Card expansion on hover",
+            "Smooth page transitions",
+            "Parallax scrolling",
+            "Floating UI elements"
+        ],
+        "components": [
+            "Liquid navbar",
+            "Animated blob background",
+            "Product cards",
+            "Elastic search bar",
+            "Floating cart button",
+            "Morphing modals"
+        ]
+    },
+    "mobile_ui": {
+        "design": "Same Liquid UI system",
+        "features": [
+            "Gesture navigation",
+            "Fluid bottom tab bar",
+            "60fps animations",
+            "Touch-based interactions"
+        ]
+    },
+    "performance": [
+        "Lazy loading",
+        "Image optimization",
+        "API caching",
+        "Debounced search"
+    ],
+    "security": [
+        "JWT authentication",
+        "Role-based access control",
+        "Input validation (Zod)",
+        "Secure API headers"
+    ],
+    "seo": [
+        "Meta tags",
+        "Open Graph",
+        "Sitemap",
+        "SEO-friendly URLs"
+    ],
+    "testing": [
+        "Unit testing (Jest)",
+        "API testing",
+        "E2E testing (Playwright)"
+    ],
+    "bonus_features": [
+        "Live chat (WebSocket)",
+        "Push notifications",
+        "Dark/light liquid themes",
+        "Coupon system",
+        "Referral system",
+        "Seller verification badge",
+        "Voice search"
+    ],
+    "deployment": {
+        "frontend": "Vercel",
+        "backend": "Railway or Render",
+        "database": "Supabase or PostgreSQL hosted"
+    },
+    "output_requirements": [
+        "Complete folder structure",
+        "Modular clean code",
+        "Environment variables setup",
+        "README documentation",
+        "API documentation"
+    ],
+    "final_goal": "Deliver a scalable, high-performance crochet marketplace with premium liquid UI experience across web and mobile"
+}

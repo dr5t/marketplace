@@ -1,0 +1,16 @@
+{
+  "name": "vrindaa-crochet-marketplace",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix web\" \"npm run start --prefix mobile\""
+  },
+  "workspaces": [
+    "backend",
+    "web",
+    "mobile"
+  ],
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
