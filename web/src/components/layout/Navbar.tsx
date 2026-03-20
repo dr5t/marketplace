@@ -6,15 +6,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Star, ShoppingCart, Heart, Zap, User, Layout, Crown, Bell, LogOut } from "lucide-react";
 import LiquidButton from "../liquid/LiquidButton";
 import { useAuth } from "@/hooks/useAuth";
-import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/context/CartContext";
 import { useState, useEffect } from "react";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
-  useEffect(() => {
-    // Socket.io or other real-time notifications can be implemented here in the future
-  }, []);
+  const { totalItems } = useCart();
 
   return (
     <motion.nav
@@ -59,25 +56,8 @@ export default function Navbar() {
 
         {/* Actions */}
         <div className="flex items-center gap-3 relative">
-          <AnimatePresence>
-            {showNotification && (
-              <motion.div
-                initial={{ opacity: 0, y: 20, x: -20 }}
-                animate={{ opacity: 1, y: 0, x: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                className="absolute top-14 right-0 w-64 p-3 rounded-2xl bg-white shadow-xl border border-blue-50 z-[60]"
-              >
-                <p className="text-xs font-bold text-[#7FD8FF] mb-1">✨ New Listing!</p>
-                <p className="text-xs text-gray-600 truncate">{notifications[0]?.title} was just added.</p>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
           <motion.button whileHover={{ scale: 1.1 }} className="p-2 rounded-full hover:bg-blue-50 relative">
             <Bell className="w-5 h-5 text-gray-500" />
-            {notifications.length > 0 && (
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-400 rounded-full border border-white" />
-            )}
           </motion.button>
           
           <motion.button whileHover={{ scale: 1.1 }} className="p-2 rounded-full hover:bg-blue-50">
