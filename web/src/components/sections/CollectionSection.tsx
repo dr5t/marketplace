@@ -28,44 +28,43 @@ const COLLECTIONS = [
 
 export default function CollectionSection() {
   return (
-    <section className="relative z-10 max-w-7xl mx-auto px-6 py-24">
-      <div className="flex flex-col items-center mb-16">
-        <h2 className="text-4xl md:text-6xl font-bold text-gray-800 text-center" style={{ fontFamily: "'Playfair Display', serif" }}>
-          Featured Collections
+    <section className="relative z-10 max-w-7xl mx-auto px-6 py-32">
+      <div className="flex flex-col items-center mb-20 text-center">
+        <h2 className="text-4xl md:text-7xl editorial-heading text-var(--color-deep-purple)">
+          Featured<br/><span className="lowercase italic tracking-normal" style={{ fontFamily: "serif" }}>collections</span>
         </h2>
-        <div className="h-1.5 w-32 bg-gradient-to-r from-[#7FD8FF] via-[#CDB4FF] to-[#FFC8A2] rounded-full mt-4" />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
         {COLLECTIONS.map((col, idx) => (
           <motion.div
             key={col.title}
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: idx * 0.1, duration: 0.8 }}
-            className="group relative h-[500px] rounded-[3rem] overflow-hidden shadow-2xl shadow-blue-500/5 cursor-pointer border border-white/40"
+            className="group relative h-[600px] rounded-[4rem] overflow-hidden shadow-2xl shadow-orange-900/5 cursor-pointer border border-white"
           >
             <Image 
               src={col.image} 
               alt={col.title} 
               fill 
-              className="object-cover transition-transform duration-1000 group-hover:scale-110"
+              className="object-cover transition-transform duration-1000 group-hover:scale-105"
             />
             
             {/* Glass Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/5 to-black/40 group-hover:via-black/20 transition-all duration-500" />
+            <div className="absolute inset-0 bg-black/5 group-hover:bg-black/10 transition-all duration-500" />
             
             <div className="absolute bottom-10 left-10 right-10">
               <motion.div 
-                className="bg-white/20 backdrop-blur-xl rounded-[2rem] p-8 border border-white/30 shadow-xl"
+                className="bg-white/40 backdrop-blur-xl rounded-[2.5rem] p-10 border border-white/40 shadow-xl flex flex-col items-center text-center"
               >
-                <h3 className="text-white text-3xl font-black mb-4 tracking-tighter" style={{ fontFamily: "'Outfit', sans-serif" }}>
+                <h3 className="text-var(--color-deep-purple) text-3xl font-bold mb-6 italic lowercase" style={{ fontFamily: "serif" }}>
                   {col.title}
                 </h3>
                 <Link href={col.link}>
-                  <LiquidButton variant="peach" className="!px-10 !py-4 !rounded-2xl !text-xs !font-black !uppercase !tracking-[0.2em] shadow-lg shadow-black/10">
-                    Explore
+                  <LiquidButton className="!px-12 !py-4 !rounded-2xl !text-[10px] !font-black !uppercase !tracking-[0.3em] !bg-var(--color-coffee) !text-white !shadow-none">
+                    Shop
                   </LiquidButton>
                 </Link>
               </motion.div>
