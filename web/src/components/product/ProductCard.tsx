@@ -86,12 +86,6 @@ export default function ProductCard({ product }: { product: Product }) {
           by <span className="text-gray-600 font-medium">{product.seller?.storeName || "Vrindaa Artisan"}</span>
         </p>
 
-        {product.description && (
-          <p className="text-gray-400 text-xs line-clamp-2 leading-relaxed mb-4 no-neofolia product-description">
-            {product.description}
-          </p>
-        )}
-
         <div className="mt-auto flex items-center justify-between border-t border-gray-50 pt-4">
           <div className="flex flex-col">
             <span className="text-[10px] text-gray-400 font-bold uppercase tracking-tighter">Price</span>

@@ -21,7 +21,7 @@ export default function LiquidSearch({ onSearch, placeholder = "Search crochet..
       animate={controls}
       className="relative w-full"
     >
-      <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-[#7FD8FF] transition-transform group-focus-within:scale-110" size={20} />
+      <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-[#7FD8FF] w-5 h-5 opacity-70" />
       <input
         value={value}
         onChange={(e) => { setValue(e.target.value); onSearch(e.target.value); }}

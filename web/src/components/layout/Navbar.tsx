@@ -6,26 +6,24 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Star, ShoppingCart, Heart, Zap, User, Layout, Crown, Bell, LogOut } from "lucide-react";
 import LiquidButton from "../liquid/LiquidButton";
 import { useAuth } from "@/hooks/useAuth";
+import { useFirestore } from "@/hooks/useFirestore";
 import { useCart } from "@/context/CartContext";
 import { useState, useEffect } from "react";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
+  const { lastUpdate } = useFirestore("products");
   const { totalItems } = useCart();
   const [notifications, setNotifications] = useState<any[]>([]);
   const [showNotification, setShowNotification] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false); // Added isScrolled state
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
+    if (lastUpdate) {
+      setNotifications(prev => [lastUpdate, ...prev]);
       setShowNotification(true);
       setTimeout(() => setShowNotification(false), 5000);
-    }, [notifications]); // Fixed the useEffect syntax and changed dependency to notifications for logical consistency
+    }
+  }, [lastUpdate]);
 
   return (
     <motion.nav

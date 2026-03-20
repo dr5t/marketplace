@@ -29,20 +29,10 @@
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: var(--font-neofolia);
-  color: #333;
-  background: #fff;
+  background-color: var(--color-bg);
+  color: var(--color-text);
   overflow-x: hidden;
-}
-
-/* Exclusions: Login, Sign-up, Product Name, and Description */
-.no-neofolia,
-.product-name,
-.product-description,
-.page-login,
-.page-signup,
-.page-product-detail {
-  font-family: var(--font-inter) !important;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
 }
 
 /* Liquid utility classes – pure CSS (no @apply needed for Tailwind v4) */

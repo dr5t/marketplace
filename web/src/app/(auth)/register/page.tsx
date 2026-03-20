@@ -34,7 +34,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden no-neofolia page-signup">
+    <div className="relative min-h-screen flex items-center justify-center px-6">
       <Blob className="w-80 h-80 -top-10 -right-10" gradient="linear-gradient(135deg, #CDB4FF, #FFC8A2)" />
       <Blob className="w-64 h-64 bottom-10 -left-10" />
 
