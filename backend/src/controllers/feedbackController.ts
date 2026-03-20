@@ -30,7 +30,7 @@ export const createFeedback = async (req: Request, res: Response): Promise<void>
     }
 
     const feedback = await prisma.feedback.create({
-      data: { rating: parseInt(rating), comment, imageUrl, userId },
+      data: { rating: Number(rating), comment, imageUrl, userId },
     });
     res.status(201).json(feedback);
   } catch (err) {
