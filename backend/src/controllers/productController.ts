@@ -120,6 +120,14 @@ export const createProduct = async (req: AuthRequest, res: Response): Promise<vo
 
     const { title, description, price, stock, images } = req.body;
 
+    const category = categoryId 
+      ? await prisma.category.findUnique({ where: { id: categoryId } })
+      : await prisma.category.findFirst();
+
+    if (!categoryId && !category) {
+      throw new Error("No category available and none provided. Please create a category first.");
+    }
+
     const product = await prisma.product.create({
       data: {
         title,
@@ -128,15 +136,21 @@ export const createProduct = async (req: AuthRequest, res: Response): Promise<vo
         stock: parseInt(stock),
         images: JSON.stringify(images || []),
         sellerId: sellerProfile.id,
-        categoryId: categoryId || (await prisma.category.findFirst())?.id || "",
+        categoryId: categoryId || category?.id || "",
       },
     });
     
+    // Parse images back to array for the response
+    const parsedProduct = {
+      ...product,
+      images: JSON.parse(product.images)
+    };
+
     // Emit real-time update
     const io: Server = req.app.get('io');
-    if (io) io.emit('product_created', product);
+    if (io) io.emit('product_created', parsedProduct);
 
-    res.status(201).json(product);
+    res.status(201).json(parsedProduct);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server error', error: err });

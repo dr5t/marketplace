@@ -6,24 +6,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Star, ShoppingCart, Heart, Zap, User, Layout, Crown, Bell, LogOut } from "lucide-react";
 import LiquidButton from "../liquid/LiquidButton";
 import { useAuth } from "@/hooks/useAuth";
-import { useFirestore } from "@/hooks/useFirestore";
+import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/context/CartContext";
 import { useState, useEffect } from "react";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
-  const { lastUpdate } = useFirestore("products");
-  const { totalItems } = useCart();
-  const [notifications, setNotifications] = useState<any[]>([]);
-  const [showNotification, setShowNotification] = useState(false);
-
   useEffect(() => {
-    if (lastUpdate) {
-      setNotifications(prev => [lastUpdate, ...prev]);
-      setShowNotification(true);
-      setTimeout(() => setShowNotification(false), 5000);
-    }
-  }, [lastUpdate]);
+    // Socket.io or other real-time notifications can be implemented here in the future
+  }, []);
 
   return (
     <motion.nav
