@@ -9,6 +9,9 @@
   --color-primary: #7FD8FF;
   --color-secondary: #CDB4FF;
   --color-accent: #FFC8A2;
+  --color-peach: #F9E8D9;
+  --color-deep-purple: #1A0B2E;
+  --color-coffee: #2D231E;
   --color-bg: #F8FAFF;
   --color-surface: #FFFFFF;
   --color-text: #1A1A1A;
@@ -18,8 +21,8 @@
   --gradient-peach: linear-gradient(135deg, #FFC8A2, #FFDEE9);
   --gradient-ocean: linear-gradient(120deg, #89f7fe, #66a6ff);
 
-  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.07);
-  --shadow-liquid: 0 12px 40px rgba(127, 216, 255, 0.25);
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.05);
+  --shadow-liquid: 0 12px 40px rgba(127, 216, 255, 0.2);
 
   --font-neofolia: 'Neofolia', sans-serif;
   --font-inter: 'Inter', sans-serif;
@@ -169,3 +172,28 @@ body {
 }
 
 .float { animation: float 4s ease-in-out infinite; }
+
+.editorial-heading {
+  font-family: var(--font-playfair);
+  text-transform: uppercase;
+  letter-spacing: 0.5em;
+  line-height: 1.2;
+}
+
+.glass-nav {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 9999px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+}
+
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 9999px;
+}
+

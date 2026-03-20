@@ -56,37 +56,41 @@ export default function HomePage() {
       <div className="fixed inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.02] pointer-events-none" />
 
       {/* Hero Section */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-16 text-center">
-        <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }}>
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/50 backdrop-blur-md border border-white/80 shadow-soft text-[10px] font-black text-[#7FD8FF] uppercase tracking-[0.2em] mb-8">
-            <span className="w-1.5 h-1.5 bg-[#7FD8FF] rounded-full animate-pulse" />
-            Handcrafted with love
-          </div>
-          
-          <h1 className="text-7xl md:text-[10rem] font-bold mb-8 leading-[0.9] tracking-tighter" style={{ fontFamily: "'Playfair Display', serif" }}>
-            {config?.heroTitle.split(" ").slice(0, -1).join(" ") || "Discover"}<br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7FD8FF] via-[#CDB4FF] to-[#FFC8A2]">
-              {config?.heroTitle.split(" ").slice(-1) || "Crochet"}
-            </span>{" "}
-            <span className="italic">Magic</span>
-          </h1>
-          
-          <p className="text-gray-400 text-xl md:text-2xl max-w-3xl mx-auto mb-16 font-medium leading-relaxed opacity-80" style={{ fontFamily: "'Outfit', sans-serif" }}>
-            {config?.heroSub || "Unique, handmade crochet pieces from independent artisans. Join a community where every stitch tells a story."}
-          </p>
-          
-          <div className="flex flex-wrap gap-4 justify-center">
-            <LiquidButton 
-              className="px-10 py-5 text-lg shadow-lg shadow-[#7FD8FF]/20"
-              onClick={() => document.getElementById("shop-section")?.scrollIntoView({ behavior: "smooth" })}
-            >
-              Start Exploring
-            </LiquidButton>
-            <Link href="/seller">
-              <LiquidButton variant="peach" className="px-10 py-5 text-lg shadow-lg shadow-[#FFC8A2]/20">
-                Become a Seller
+      <section className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="relative bg-var(--color-peach) rounded-[3rem] p-12 md:p-20 overflow-hidden shadow-2xl shadow-orange-900/5 group"
+        >
+          {/* Decorative radial glows */}
+          <div className="absolute -top-20 -right-20 w-96 h-96 bg-blue-200/20 blur-[100px] rounded-full group-hover:scale-110 transition-transform duration-1000" />
+          <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-purple-200/20 blur-[100px] rounded-full group-hover:scale-110 transition-transform duration-1000" />
+
+          <div className="relative z-10 flex flex-col items-center text-center">
+            <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-white/40 backdrop-blur-md border border-white/60 text-[10px] font-black text-var(--color-coffee) uppercase tracking-[0.3em] mb-12">
+              <span className="w-1.5 h-1.5 bg-var(--color-coffee) rounded-full animate-pulse" />
+              Early Access Deal
+            </div>
+            
+            <h1 className="text-5xl md:text-8xl editorial-heading text-var(--color-deep-purple) mb-12 leading-tight">
+              Discover<br/>
+              <span className="font-light italic lowercase tracking-normal" style={{ fontFamily: "serif" }}>the</span> magic<br/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">of Crochet</span>
+            </h1>
+            
+            <p className="text-var(--color-coffee)/60 text-lg md:text-xl max-w-2xl mx-auto mb-16 font-medium leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>
+              {config?.heroSub || "Unique, handmade crochet pieces from independent artisans. Join a community where every stitch tells a story."}
+            </p>
+            
+            <div className="flex flex-wrap gap-4 justify-center">
+              <LiquidButton 
+                className="!px-12 !py-6 !text-lg !bg-var(--color-coffee) !text-white !rounded-full !shadow-xl !shadow-black/5"
+                onClick={() => document.getElementById("shop-section")?.scrollIntoView({ behavior: "smooth" })}
+              >
+                Shop Now
               </LiquidButton>
-            </Link>
+            </div>
           </div>
         </motion.div>
       </section>
