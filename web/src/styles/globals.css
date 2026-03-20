@@ -27,6 +27,10 @@
   --shadow-soft: 0 4px 24px rgba(127, 216, 255, 0.18);
   --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.07);
   --shadow-liquid: 0 12px 40px rgba(127, 216, 255, 0.25);
+
+  /* Typography */
+  --font-neofolio: var(--font-outfit), sans-serif;
+  --font-serif: var(--font-playfair), serif;
 }
 
 html { scroll-behavior: smooth; }
@@ -35,7 +39,11 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   overflow-x: hidden;
-  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  font-family: var(--font-neofolio);
+}
+
+.product-name, .product-description {
+  font-family: var(--font-serif) !important;
 }
 
 @layer components {

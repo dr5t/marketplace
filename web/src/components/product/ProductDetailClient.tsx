@@ -110,7 +110,7 @@ export default function ProductDetailClient({ id }: { id: string }) {
                   <Heart size={20} />
                 </button>
               </div>
-              <h1 className="text-5xl font-bold font-playfair mb-4 leading-tight">{PLACEHOLDER_PRODUCT.title}</h1>
+              <h1 className="text-5xl font-bold font-playfair mb-4 leading-tight product-name">{PLACEHOLDER_PRODUCT.title}</h1>
               <div className="flex items-center gap-4 text-sm font-bold text-gray-400">
                 <div className="flex gap-1 text-orange-400">
                   {[...Array(5)].map((_, i) => <Star key={i} size={14} fill={i < 4 ? "currentColor" : "none"} />)}
@@ -119,7 +119,7 @@ export default function ProductDetailClient({ id }: { id: string }) {
               </div>
             </div>
 
-            <p className="text-gray-500 leading-relaxed text-lg whitespace-pre-line">
+            <p className="text-gray-500 leading-relaxed text-lg whitespace-pre-line product-description">
               {PLACEHOLDER_PRODUCT.description}
             </p>
 

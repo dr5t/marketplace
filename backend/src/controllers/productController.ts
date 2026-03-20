@@ -8,6 +8,17 @@ interface AuthRequest extends Request {
   user?: { id: string; role: string };
 }
 
+// Helper to handle legacy malformed JSON or empty strings in images column
+const safeParseImages = (imagesStr: string): string[] => {
+  try {
+    if (!imagesStr || imagesStr.trim() === "") return [];
+    return JSON.parse(imagesStr);
+  } catch (e) {
+    console.warn("Failed to parse images JSON, returning empty array:", imagesStr);
+    return [];
+  }
+};
+
 export const getProducts = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const { search, categoryId, sellerId } = req.query;
@@ -20,7 +31,7 @@ export const getProducts = async (req: AuthRequest, res: Response): Promise<void
 
     const products = await prisma.product.findMany({
       where: {
-        ...(search ? { title: { contains: (search as string), mode: 'insensitive' as const } } : {}),
+        ...(search ? { title: { contains: (search as string) } } : {}),
         ...(categoryId ? { categoryId: categoryId as string } : {}),
         ...(targetSellerId ? { sellerId: targetSellerId } : {}),
       },
@@ -31,7 +42,7 @@ export const getProducts = async (req: AuthRequest, res: Response): Promise<void
     // Parse images string back to array for each product
     const parsedProducts = products.map(p => ({
       ...p,
-      images: JSON.parse(p.images)
+      images: safeParseImages(p.images)
     }));
 
     res.json(parsedProducts);
@@ -52,7 +63,7 @@ export const getProductById = async (req: Request, res: Response): Promise<void>
     
     const parsedProduct = {
       ...product,
-      images: JSON.parse(product.images)
+      images: safeParseImages(product.images)
     };
     
     res.json(parsedProduct);
@@ -77,7 +88,7 @@ export const getRecommendations = async (req: Request, res: Response): Promise<v
     
     const parsedRecommendations = recommendations.map(r => ({
       ...r,
-      images: JSON.parse(r.images)
+      images: safeParseImages(r.images)
     }));
 
     res.json(parsedRecommendations);
@@ -143,7 +154,7 @@ export const createProduct = async (req: AuthRequest, res: Response): Promise<vo
     // Parse images back to array for the response
     const parsedProduct = {
       ...product,
-      images: JSON.parse(product.images)
+      images: safeParseImages(product.images)
     };
 
     // Emit real-time update

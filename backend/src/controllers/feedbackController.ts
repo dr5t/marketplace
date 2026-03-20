@@ -14,7 +14,7 @@ export const getFeedbacks = async (_req: Request, res: Response): Promise<void> 
 
 export const createFeedback = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { rating, comment, imageUrl } = req.body;
+    const { rating, comment, imageUrl, userId } = req.body;
     
     // Simple check for image size (if provided as base64 or url)
     // Real image validation should happen via multer/middleware, 
@@ -24,8 +24,13 @@ export const createFeedback = async (req: Request, res: Response): Promise<void>
         return;
     }
 
+    if (!userId) {
+        res.status(400).json({ message: 'User ID is required' });
+        return;
+    }
+
     const feedback = await prisma.feedback.create({
-      data: { rating: parseInt(rating), comment, imageUrl },
+      data: { rating: parseInt(rating), comment, imageUrl, userId },
     });
     res.status(201).json(feedback);
   } catch (err) {
