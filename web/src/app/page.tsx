@@ -101,19 +101,24 @@ export default function HomePage() {
           <LiquidSearch onSearch={setSearchTerm} />
         </div>
         
-        <div className="flex items-center gap-4 overflow-x-auto pb-4 no-scrollbar">
-           <span className="text-[10px] font-black text-gray-300 uppercase tracking-widest whitespace-nowrap pl-2">Filter By:</span>
+        <div className="flex items-center gap-12 overflow-x-auto pb-4 no-scrollbar justify-center">
            {CATEGORIES.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-8 py-3 rounded-2xl text-sm font-bold transition-all whitespace-nowrap border-2 ${
+              className={`text-sm font-bold transition-all whitespace-nowrap uppercase tracking-[0.2em] relative py-2 ${
                 activeCategory === cat 
-                ? "bg-white border-[#7FD8FF] text-[#7FD8FF] shadow-soft shadow-[#7FD8FF]/10 scale-105" 
-                : "bg-transparent border-transparent text-gray-400 hover:text-gray-600"
+                ? "text-var(--color-deep-purple)" 
+                : "text-gray-300 hover:text-gray-500"
               }`}
             >
               {cat}
+              {activeCategory === cat && (
+                <motion.div 
+                  layoutId="activeCat"
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-var(--color-primary) rounded-full"
+                />
+              )}
             </button>
           ))}
         </div>
