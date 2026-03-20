@@ -4,7 +4,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -18,6 +19,7 @@ model User {
   sellerProfile SellerProfile?
   orders        Order[]
   reviews       Review[]
+  feedbacks     Feedback[]
   cartItems     CartItem[]
 }
 
@@ -37,7 +39,7 @@ model Product {
   description String
   price       Float
   stock       Int
-  images      String[]
+  images      String // JSON array as string for SQLite compatibility
   createdAt   DateTime @default(now())
 
   sellerId String
@@ -99,6 +101,25 @@ model Review {
 
   user    User    @relation(fields: [userId], references: [id])
   product Product @relation(fields: [productId], references: [id])
+}
+
+model SiteConfig {
+  id          String   @id @default("default")
+  heroTitle   String   @default("Discover Crochet Magic")
+  heroSub     String   @default("Unique, handmade crochet pieces from independent artisans.")
+  footerText  String   @default("© 2026 Vrindaa. Handcrafted with love.")
+  headerTitle String   @default("Vrindaa")
+  updatedAt   DateTime @updatedAt
+}
+
+model Feedback {
+  id        String   @id @default(uuid())
+  rating    Int
+  comment   String
+  imageUrl  String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
 }
 
 enum Role {

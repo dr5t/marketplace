@@ -8,6 +8,9 @@ import ProductCard from "@/components/product/ProductCard";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import FeedbackSection from "@/components/feedback/FeedbackSection";
+import AboutUs from "@/components/sections/AboutUs";
+import CollectionSection from "@/components/sections/CollectionSection";
+import Footer from "@/components/layout/Footer";
 
 const CATEGORIES = ["All", "Toys", "Apparel", "Home Decor", "Accessories", "Commissions"];
 
@@ -47,9 +50,10 @@ export default function HomePage() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#F8FAFF]">
       {/* Background blobs */}
-      <Blob className="w-[800px] h-[800px] -top-40 -left-40 opacity-10" />
-      <Blob className="w-96 h-96 top-1/4 -right-16 opacity-10" gradient="var(--gradient-peach)" />
-      <Blob className="w-[600px] h-[600px] bottom-0 left-1/4 opacity-10" gradient="var(--gradient-ocean)" />
+      <Blob className="w-[1000px] h-[1000px] -top-80 -left-60 opacity-[0.08]" />
+      <Blob className="w-[600px] h-[600px] top-1/2 -right-40 opacity-[0.06]" gradient="var(--gradient-peach)" />
+      <Blob className="w-[800px] h-[800px] -bottom-40 left-1/2 opacity-[0.05]" gradient="var(--gradient-ocean)" />
+      <div className="fixed inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.02] pointer-events-none" />
 
       {/* Hero Section */}
       <section className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-16 text-center">
@@ -59,15 +63,15 @@ export default function HomePage() {
             Handcrafted with love
           </div>
           
-          <h1 className="text-6xl md:text-8xl font-bold mb-8 leading-[1.1] tracking-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
-            {config?.heroTitle.split(" ").slice(0, -1).join(" ") || "Discover"}{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7FD8FF] to-[#CDB4FF]">
+          <h1 className="text-7xl md:text-[10rem] font-bold mb-8 leading-[0.9] tracking-tighter" style={{ fontFamily: "'Playfair Display', serif" }}>
+            {config?.heroTitle.split(" ").slice(0, -1).join(" ") || "Discover"}<br/>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7FD8FF] via-[#CDB4FF] to-[#FFC8A2]">
               {config?.heroTitle.split(" ").slice(-1) || "Crochet"}
             </span>{" "}
-            Magic
+            <span className="italic">Magic</span>
           </h1>
           
-          <p className="text-gray-400 text-xl max-w-2xl mx-auto mb-12 font-medium leading-relaxed">
+          <p className="text-gray-400 text-xl md:text-2xl max-w-3xl mx-auto mb-16 font-medium leading-relaxed opacity-80" style={{ fontFamily: "'Outfit', sans-serif" }}>
             {config?.heroSub || "Unique, handmade crochet pieces from independent artisans. Join a community where every stitch tells a story."}
           </p>
           
@@ -110,6 +114,8 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      <CollectionSection />
 
       {/* Products Grid */}
       <section id="shop-section" className="relative z-10 max-w-7xl mx-auto px-6 pb-32">
@@ -157,6 +163,8 @@ export default function HomePage() {
       </section>
 
       <FeedbackSection />
+      <AboutUs />
+      <Footer />
 
       {/* Decorative Footer Shape */}
       <div className="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-t from-white to-transparent pointer-events-none -z-10" />

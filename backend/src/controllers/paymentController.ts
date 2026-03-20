@@ -57,6 +57,11 @@ export const verifyPayment = async (req: AuthRequest, res: Response): Promise<vo
       },
     });
 
+    // Clear the cart after successful payment and order creation
+    await prisma.cartItem.deleteMany({
+      where: { userId: req.user!.id }
+    });
+
     res.json({ success: true, orderId: order.id });
   } catch (err) {
     res.status(500).json({ message: 'Payment verification failed', error: err });

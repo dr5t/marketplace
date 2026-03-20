@@ -10,10 +10,10 @@ export const addToCart = async (req: AuthRequest, res: Response): Promise<void> 
     const { productId, quantity } = req.body;
     const userId = req.user!.id;
 
-    const existing = await (prisma as any).cartItem.findFirst({ where: { userId, productId } });
+    const existing = await prisma.cartItem.findFirst({ where: { userId, productId } });
 
     if (existing) {
-      const updated = await (prisma as any).cartItem.update({
+      const updated = await prisma.cartItem.update({
         where: { id: existing.id },
         data: { quantity: existing.quantity + quantity },
       });
@@ -21,7 +21,7 @@ export const addToCart = async (req: AuthRequest, res: Response): Promise<void> 
       return;
     }
 
-    const item = await (prisma as any).cartItem.create({ data: { userId, productId, quantity } });
+    const item = await prisma.cartItem.create({ data: { userId, productId, quantity } });
     res.status(201).json(item);
   } catch (err) {
     res.status(500).json({ message: 'Server error', error: err });
@@ -31,7 +31,7 @@ export const addToCart = async (req: AuthRequest, res: Response): Promise<void> 
 export const getCart = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const userId = req.user!.id;
-    const cart = await (prisma as any).cartItem.findMany({
+    const cart = await prisma.cartItem.findMany({
       where: { userId },
       include: { product: true },
     });
@@ -44,7 +44,14 @@ export const getCart = async (req: AuthRequest, res: Response): Promise<void> =>
 export const removeFromCart = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const { itemId } = req.params;
-    await (prisma as any).cartItem.delete({ where: { id: itemId } });
+    const userId = req.user!.id;
+    
+    await prisma.cartItem.deleteMany({ 
+      where: { 
+        id: itemId as string,
+        userId: userId
+      } 
+    });
     res.json({ message: 'Item removed' });
   } catch (err) {
     res.status(500).json({ message: 'Server error', error: err });

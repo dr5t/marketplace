@@ -16,6 +16,15 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 
 const app = express();
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: process.env.FRONTEND_URL || "http://localhost:3000",
+    methods: ["GET", "POST"]
+  }
+});
+
+app.set('io', io);
 const PORT = process.env.PORT || 5001;
 
 app.use(cors({
@@ -46,7 +55,7 @@ app.get('/health', (_req, res) => {
   res.json({ status: 'OK', message: '🧶 Vrindaa Crochet Backend is running' });
 });
 
-app.listen(PORT, () => {
+httpServer.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
 

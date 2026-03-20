@@ -12,9 +12,14 @@ export const getFeedbacks = async (_req: Request, res: Response): Promise<void> 
   }
 };
 
-export const createFeedback = async (req: Request, res: Response): Promise<void> => {
+interface AuthRequest extends Request {
+  user?: { id: string; role: string };
+}
+
+export const createFeedback = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const { rating, comment, imageUrl, userId } = req.body;
+    const { rating, comment, imageUrl } = req.body;
+    const userId = req.user!.id;
     
     // Simple check for image size (if provided as base64 or url)
     // Real image validation should happen via multer/middleware, 
@@ -25,7 +30,7 @@ export const createFeedback = async (req: Request, res: Response): Promise<void>
     }
 
     if (!userId) {
-        res.status(400).json({ message: 'User ID is required' });
+        res.status(401).json({ message: 'Unauthorized' });
         return;
     }
 

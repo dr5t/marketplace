@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../generated/client';
 
 // Prisma 7: datasource URL is now configured via prisma.config.ts
 // PrismaClient still instantiated the same way at runtime
