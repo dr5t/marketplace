@@ -142,7 +142,7 @@ const ProductDetail = () => {
 
             <div className="flex flex-col gap-4 mb-16">
                <button 
-                 onClick={() => addToCart({ id: product.id as string, title: product.title, price: product.price, images: [product.images[0]], category: product.category, quantity: 1 })}
+                 onClick={() => addToCart({ id: product.id as string, title: product.title, price: product.price, images: [product.images[0]] })}
                  className="w-full bg-primary text-white rounded-full py-5 font-bold uppercase tracking-widest text-sm flex items-center justify-center gap-3 shadow-xl hover:shadow-2xl transition-all"
                >
                  <span className="material-symbols-outlined">shopping_bag</span>
