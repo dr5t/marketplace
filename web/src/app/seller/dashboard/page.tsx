@@ -1,123 +1,132 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
 import { motion } from "framer-motion";
-import Blob from "@/components/liquid/Blob";
-import LiquidButton from "@/components/liquid/LiquidButton";
+import { Plus, Package, DollarSign, Users, ShoppingCart, ArrowUpRight, ArrowDownRight, MoreVertical } from "lucide-react";
 import Link from "next/link";
-import { Plus, Package, DollarSign, TrendingUp, Edit, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function SellerDashboard() {
-  const [products, setProducts] = useState<{ id: string; title: string; price: number; stock: number; images: string[] }[]>([]);
-  const [loading, setLoading]   = useState(true);
+  const [products, setProducts] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchSellerProducts = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products?sellerId=current`, {
-          headers: { "Authorization": `Bearer ${token}` }
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/seller`, {
+          headers: { Authorization: `Bearer ${token}` }
         });
         const data = await res.json();
         setProducts(data);
       } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
+        console.error("Failed to fetch products", err);
       }
     };
     fetchSellerProducts();
   }, []);
 
+  const stats = [
+    { label: "Total Revenue", value: "₹42,850", trend: "+12.5%", icon: DollarSign, color: "bg-primary-container/30 text-primary" },
+    { label: "Active Orders", value: "18", trend: "+4", icon: ShoppingCart, color: "bg-secondary-container/30 text-secondary" },
+    { label: "Total Views", value: "1,240", trend: "-2.1%", icon: Users, color: "bg-tertiary-container/30 text-tertiary" },
+    { label: "Crafts Listed", value: products.length.toString(), trend: "0", icon: Package, color: "bg-surface-container-high text-on-surface-variant" },
+  ];
+
   return (
-    <div className="relative min-h-screen px-6 py-24 max-w-7xl mx-auto overflow-hidden">
-      <Blob className="w-[500px] h-[500px] -top-20 -right-20 opacity-30" gradient="var(--gradient-peach)" />
-      
-      <div className="relative z-10">
-        <div className="flex justify-between items-center mb-10">
+    <div className="bg-surface text-on-background font-body min-h-screen">
+      <main className="pt-32 pb-24 px-8 max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <h1 className="text-4xl font-bold font-playfair mb-2">Seller Dashboard 🧶</h1>
-            <p className="text-gray-500">Manage your crochet collection</p>
+            <h1 className="text-5xl font-headline italic text-on-surface mb-2">Seller Dashboard</h1>
+            <p className="text-sm text-on-surface-variant font-medium uppercase tracking-widest italic">Welcome back to your workshop, Vrindaa</p>
           </div>
           <Link href="/seller/add-product">
-            <LiquidButton className="flex items-center gap-2">
-              <Plus size={18} /> Add New Design
-            </LiquidButton>
+            <button className="bg-primary text-on-primary px-8 py-4 rounded-full font-bold tracking-[0.2em] uppercase text-xs shadow-xl shadow-primary/20 hover:bg-primary-dim active:scale-95 transition-all flex items-center gap-3">
+              <Plus size={16} /> List New Creation
+            </button>
           </Link>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          {[
-            { label: "Total Sales", value: "₹12,450", icon: DollarSign, color: "#7FD8FF" },
-            { label: "Active Products", value: products.length.toString(), icon: Package, color: "#CDB4FF" },
-            { label: "Store Rating", value: "4.8/5", icon: TrendingUp, color: "#FFC8A2" },
-          ].map((stat, idx) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          {stats.map((stat, i) => (
             <motion.div
-              key={idx}
+              key={stat.label}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.1 }}
-              className="liquid-card flex items-center gap-5"
+              transition={{ delay: i * 0.1 }}
+              className="bg-surface-container-low p-8 rounded-[2.5rem] border border-surface-container-highest shadow-[0_8px_32px_rgba(56,56,51,0.03)] group hover:shadow-[0_12px_48px_rgba(56,56,51,0.06)] transition-all duration-500"
             >
-              <div className="w-12 h-12 rounded-2xl flex items-center justify-center text-white" 
-                style={{ background: stat.color }}>
-                <stat.icon size={24} />
+              <div className="flex justify-between items-start mb-6">
+                <div className={`w-12 h-12 rounded-2xl ${stat.color} flex items-center justify-center transition-transform group-hover:scale-110 duration-500`}>
+                  <stat.icon size={20} />
+                </div>
+                <div className={`flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-full ${stat.trend.startsWith("+") ? "bg-primary/10 text-primary" : "bg-error/10 text-error"}`}>
+                  {stat.trend.startsWith("+") ? <ArrowUpRight size={10} /> : <ArrowDownRight size={10} />}
+                  {stat.trend}
+                </div>
               </div>
-              <div>
-                <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">{stat.label}</p>
-                <h3 className="text-2xl font-bold text-gray-800">{stat.value}</h3>
-              </div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-on-surface-variant mb-1 ml-1">{stat.label}</p>
+              <h3 className="text-3xl font-headline italic text-on-surface">{stat.value}</h3>
             </motion.div>
           ))}
         </div>
 
-        {/* Product Table */}
-        <div className="liquid-card overflow-hidden">
-          <h2 className="text-xl font-bold mb-6 px-2">Your Listings</h2>
+        {/* Recent Product List */}
+        <div className="bg-surface-container-low rounded-[2.5rem] border border-surface-container-highest shadow-[0_12px_48px_rgba(56,56,51,0.03)] overflow-hidden">
+          <div className="p-8 border-b border-surface-container-highest flex justify-between items-center">
+             <h3 className="text-2xl font-headline italic text-on-surface">Your Collection</h3>
+             <button className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors underline decoration-primary/20 underline-offset-4">View All Items</button>
+          </div>
+          
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="border-b border-gray-100 text-gray-400 text-xs uppercase font-bold tracking-widest">
-                  <th className="px-4 py-4">Product</th>
-                  <th className="px-4 py-4">Price</th>
-                  <th className="px-4 py-4">Stock</th>
-                  <th className="px-4 py-4 text-right">Actions</th>
+                <tr className="bg-surface-container-high/30">
+                  <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Product</th>
+                  <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Status</th>
+                  <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Price</th>
+                  <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">Action</th>
                 </tr>
               </thead>
-              <tbody>
-                {loading ? (
-                  <tr><td colSpan={4} className="py-20 text-center text-gray-400">Loading products...</td></tr>
-                ) : products.length === 0 ? (
-                  <tr><td colSpan={4} className="py-20 text-center text-gray-400 italic">No products yet. Let&apos;s create one! ✨</td></tr>
-                ) : (
-                  products.map((p) => (
-                    <tr key={p.id} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
-                      <td className="px-4 py-4 flex items-center gap-4">
-                        <div className="relative w-12 h-12 rounded-xl bg-gray-100 overflow-hidden">
-                          <Image src={p.images[0]} alt={p.title} fill className="object-cover" />
+              <tbody className="divide-y divide-surface-container-highest">
+                {products.length > 0 ? (
+                  products.map((product, i) => (
+                    <tr key={i} className="group hover:bg-surface-container-high/20 transition-colors">
+                      <td className="px-8 py-6">
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 rounded-xl bg-stone-100 flex items-center justify-center text-xl overflow-hidden relative">
+                            {product.images?.[0] ? (
+                              <img src={product.images[0]} alt={product.title} className="w-full h-full object-cover" />
+                            ) : "🧶"}
+                          </div>
+                          <span className="font-bold text-sm text-on-surface">{product.title}</span>
                         </div>
-                        <span className="font-semibold text-gray-700">{p.title}</span>
                       </td>
-                      <td className="px-4 py-4 text-gray-600 font-medium">₹{p.price}</td>
-                      <td className="px-4 py-4">
-                        <span className={`px-3 py-1 rounded-full text-xs font-bold ${p.stock > 10 ? 'bg-green-100 text-green-600' : 'bg-orange-100 text-orange-600'}`}>
-                          {p.stock} In Stock
-                        </span>
+                      <td className="px-8 py-6">
+                         <span className="text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full bg-primary/10 text-primary">
+                           Active
+                         </span>
                       </td>
-                      <td className="px-4 py-4 text-right space-x-2">
-                        <button className="p-2 hover:bg-blue-50 text-blue-400 rounded-lg transition-colors"><Edit size={18} /></button>
-                        <button className="p-2 hover:bg-red-50 text-red-400 rounded-lg transition-colors"><Trash2 size={18} /></button>
+                      <td className="px-8 py-6 text-sm font-medium text-on-surface-variant">₹{product.price}</td>
+                      <td className="px-8 py-6 text-right">
+                         <button className="p-2 text-on-surface-variant/40 hover:text-primary transition-colors">
+                            <MoreVertical size={18} />
+                         </button>
                       </td>
                     </tr>
                   ))
+                ) : (
+                  <tr>
+                    <td colSpan={4} className="px-8 py-12 text-center text-on-surface-variant italic">
+                      No crafts listed yet. Start your journey today!
+                    </td>
+                  </tr>
                 )}
               </tbody>
             </table>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
