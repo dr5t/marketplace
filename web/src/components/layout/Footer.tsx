@@ -1,3 +1,7 @@
+"use client";
+
+import Link from "next/link";
+
 export default function Footer() {
   return (
     <footer className="w-full mt-20 rounded-t-[3rem] bg-stone-50 border-t border-stone-200/30">
@@ -9,10 +13,10 @@ export default function Footer() {
         <div>
           <h4 className="font-serif italic text-emerald-800 mb-6" style={{ fontFamily: "var(--font-noto-serif)" }}>Shop</h4>
           <ul className="space-y-4 font-body text-sm text-stone-600">
-            <li><Link className="hover:text-emerald-700 hover:translate-x-1 transition-all block" href="/new-arrivals">New Arrivals</Link></li>
-            <li><Link className="hover:text-emerald-700 hover:translate-x-1 transition-all block" href="/custom-orders">Custom Orders</Link></li>
-            <li><Link className="hover:text-emerald-700 hover:translate-x-1 transition-all block" href="/best-sellers">Best Sellers</Link></li>
-            <li><Link className="hover:text-emerald-700 hover:translate-x-1 transition-all block" href="/gift-cards">Gift Cards</Link></li>
+            <li><Link className="hover:text-emerald-700 hover:translate-x-1 transition-all block" href="/category/bags">Bags</Link></li>
+            <li><Link className="hover:text-emerald-700 hover:translate-x-1 transition-all block" href="/category/toys">Toys</Link></li>
+            <li><Link className="hover:text-emerald-700 hover:translate-x-1 transition-all block" href="/category/clothing">Clothing</Link></li>
+            <li><Link className="hover:text-emerald-700 hover:translate-x-1 transition-all block" href="/category/decor">Decor</Link></li>
           </ul>
         </div>
         <div>
@@ -41,7 +45,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  );
-}
   );
 }

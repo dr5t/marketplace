@@ -1,182 +1,163 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Blob from "@/components/liquid/Blob";
-import LiquidSearch from "@/components/liquid/LiquidSearch";
-import LiquidButton from "@/components/liquid/LiquidButton";
-import ProductCard from "@/components/product/ProductCard";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
-import FeedbackSection from "@/components/feedback/FeedbackSection";
-import AboutUs from "@/components/sections/AboutUs";
-import CollectionSection from "@/components/sections/CollectionSection";
-import Footer from "@/components/layout/Footer";
+import ProductCard from "@/components/product/ProductCard";
+import { collection, getDocs, query, limit } from "firebase/firestore";
+import { db } from "@/firebase-config";
 
-const CATEGORIES = ["All", "Toys", "Apparel", "Home Decor", "Accessories", "Commissions"];
-
-export default function HomePage() {
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [searchTerm, setSearchTerm]         = useState("");
-  const [products, setProducts]             = useState<any[]>([]);
-  const [loading, setLoading]               = useState(true);
-  const [config, setConfig]                 = useState<any>(null);
+export default function Home() {
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchProducts = async () => {
       try {
-        const [prodRes, configRes] = await Promise.all([
-          fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`),
-          fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/config`)
-        ]);
-        const prodData = await prodRes.json();
-        const configData = await configRes.json();
-        setProducts(prodData);
-        setConfig(configData);
-      } catch (err) {
-        console.error("Failed to fetch data:", err);
+        const q = query(collection(db, "products"), limit(8));
+        const querySnapshot = await getDocs(q);
+        const productsData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setProducts(productsData);
+      } catch (error) {
+        console.error("Error fetching products:", error);
       } finally {
         setLoading(false);
       }
     };
-    fetchData();
+
+    fetchProducts();
   }, []);
 
-  const filtered = products.filter((p) => {
-    const matchesSearch = p.title.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = activeCategory === "All" || p.category?.name === activeCategory || p.category === activeCategory;
-    return matchesSearch && matchesCategory;
-  });
-
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#F8FAFF]">
-      {/* Background blobs */}
-      <Blob className="w-[1000px] h-[1000px] -top-80 -left-60 opacity-[0.08]" />
-      <Blob className="w-[600px] h-[600px] top-1/2 -right-40 opacity-[0.06]" gradient="var(--gradient-peach)" />
-      <Blob className="w-[800px] h-[800px] -bottom-40 left-1/2 opacity-[0.05]" gradient="var(--gradient-ocean)" />
-      <div className="fixed inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.02] pointer-events-none" />
-
+    <div className="min-h-screen bg-[var(--color-background)]">
       {/* Hero Section */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-16">
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }} 
-          animate={{ opacity: 1, y: 0 }} 
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative bg-var(--color-peach) rounded-[3rem] p-12 md:p-20 overflow-hidden shadow-2xl shadow-orange-900/5 group"
-        >
-          {/* Decorative radial glows */}
-          <div className="absolute -top-20 -right-20 w-96 h-96 bg-blue-200/20 blur-[100px] rounded-full group-hover:scale-110 transition-transform duration-1000" />
-          <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-purple-200/20 blur-[100px] rounded-full group-hover:scale-110 transition-transform duration-1000" />
+      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
+        {/* Hero Background Image */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=2072&auto=format&fit=crop"
+            alt="Crochet Texture"
+            fill
+            className="object-cover opacity-30 grayscale"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[var(--color-background)]" />
+        </div>
 
-          <div className="relative z-10 flex flex-col items-center text-center">
-            <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-white/40 backdrop-blur-md border border-white/60 text-[10px] font-black text-var(--color-coffee) uppercase tracking-[0.3em] mb-12">
-              <span className="w-1.5 h-1.5 bg-var(--color-coffee) rounded-full animate-pulse" />
-              Early Access Deal
-            </div>
-            
-            <h1 className="text-5xl md:text-8xl editorial-heading text-var(--color-deep-purple) mb-12 leading-tight">
-              Discover<br/>
-              <span className="font-light italic lowercase tracking-normal" style={{ fontFamily: "serif" }}>the</span> magic<br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">of Crochet</span>
-            </h1>
-            
-            <p className="text-var(--color-coffee)/60 text-lg md:text-xl max-w-2xl mx-auto mb-16 font-medium leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>
-              {config?.heroSub || "Unique, handmade crochet pieces from independent artisans. Join a community where every stitch tells a story."}
+        <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="font-serif italic text-emerald-800 text-xl md:text-2xl mb-6"
+            style={{ fontFamily: "var(--font-noto-serif)" }}
+          >
+            Modern Crochet for the Conscious Soul
+          </motion.p>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-6xl md:text-8xl lg:text-9xl text-emerald-900 font-bold mb-8 tracking-tighter"
+            style={{ fontFamily: "var(--font-noto-serif)" }}
+          >
+            The Artisanal <br /> Thread
+          </motion.h1>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="flex flex-col md:flex-row items-center justify-center gap-8 mt-12"
+          >
+            <p className="max-w-md text-stone-600 text-sm leading-relaxed text-left border-l border-emerald-800/20 pl-6">
+              Vrindaa honors the slow-craft movement, bringing you handcrafted pieces that bridge the gap between traditional heritage and contemporary design.
             </p>
-            
-            <div className="flex flex-wrap gap-4 justify-center">
-              <LiquidButton 
-                className="!px-12 !py-6 !text-lg !bg-var(--color-coffee) !text-white !rounded-full !shadow-xl !shadow-black/5"
-                onClick={() => document.getElementById("shop-section")?.scrollIntoView({ behavior: "smooth" })}
-              >
-                Shop Now
-              </LiquidButton>
-            </div>
+            <Link href="/category/all">
+               <button className="liquid-btn">
+                 Shop Collection
+                 <span className="material-symbols-outlined ml-2 text-sm">arrow_forward</span>
+               </button>
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Values Section */}
+      <section className="py-24 bg-white/40">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-16">
+          <div className="text-center">
+            <span className="material-symbols-outlined text-4xl text-emerald-800 mb-6">eco</span>
+            <h3 className="font-serif text-xl text-emerald-900 mb-4" style={{ fontFamily: "var(--font-noto-serif)" }}>Ethically Sourced</h3>
+            <p className="text-sm text-stone-600 leading-relaxed">We use only organic, biodegradable fibers from local farmers who share our values.</p>
           </div>
-        </motion.div>
-      </section>
-
-      {/* Search & Filter Bar */}
-      <section className="relative z-10 max-w-5xl mx-auto px-6 mb-16">
-        <div className="liquid-card !p-3 !rounded-[2.5rem] mb-8 shadow-xl shadow-blue-500/5">
-          <LiquidSearch onSearch={setSearchTerm} />
-        </div>
-        
-        <div className="flex items-center gap-12 overflow-x-auto pb-4 no-scrollbar justify-center">
-           {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`text-sm font-bold transition-all whitespace-nowrap uppercase tracking-[0.2em] relative py-2 ${
-                activeCategory === cat 
-                ? "text-var(--color-deep-purple)" 
-                : "text-gray-300 hover:text-gray-500"
-              }`}
-            >
-              {cat}
-              {activeCategory === cat && (
-                <motion.div 
-                  layoutId="activeCat"
-                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-var(--color-primary) rounded-full"
-                />
-              )}
-            </button>
-          ))}
+          <div className="text-center">
+            <span className="material-symbols-outlined text-4xl text-emerald-800 mb-6">history_edu</span>
+            <h3 className="font-serif text-xl text-emerald-900 mb-4" style={{ fontFamily: "var(--font-noto-serif)" }}>Timeless Design</h3>
+            <p className="text-sm text-stone-600 leading-relaxed">Our pieces are created to transcend trends, becoming heirlooms for generations.</p>
+          </div>
+          <div className="text-center">
+            <span className="material-symbols-outlined text-4xl text-emerald-800 mb-6">workspace_premium</span>
+            <h3 className="font-serif text-xl text-emerald-900 mb-4" style={{ fontFamily: "var(--font-noto-serif)" }}>Artisan Made</h3>
+            <p className="text-sm text-stone-600 leading-relaxed">Each knot is placed with intention by skilled women in our local artisan circles.</p>
+          </div>
         </div>
       </section>
 
-      <CollectionSection />
-
-      {/* Products Grid */}
-      <section id="shop-section" className="relative z-10 max-w-7xl mx-auto px-6 pb-32">
-        <div className="flex items-end justify-between mb-12 px-2">
+      {/* Latest Arrivals */}
+      <section className="py-24 max-w-7xl mx-auto px-6">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
-              {activeCategory === "All" ? "Featured Collections" : activeCategory}
+            <p className="font-sans text-[10px] font-bold uppercase tracking-widest text-stone-400 mb-3">Our Selection</p>
+            <h2 className="text-4xl md:text-5xl font-serif text-emerald-900" style={{ fontFamily: "var(--font-noto-serif)" }}>
+              Latest Arrivals
             </h2>
-            <div className="h-1 w-20 bg-gradient-to-r from-[#7FD8FF] to-transparent rounded-full" />
           </div>
-          <p className="text-[11px] font-black text-gray-300 uppercase tracking-[0.3em]">
-            {filtered.length} artisans active
-          </p>
+          <Link href="/category/all" className="text-stone-500 hover:text-emerald-800 text-sm font-bold uppercase tracking-widest transition-colors flex items-center gap-2 mb-2">
+            View All <span className="material-symbols-outlined text-sm">north_east</span>
+          </Link>
         </div>
-        
+
         {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-             {[1,2,3,4].map(i => (
-               <div key={i} className="w-full aspect-[4/5] bg-white/50 animate-pulse rounded-[2.5rem] border border-gray-100" />
-             ))}
+          <div className="flex justify-center items-center py-20">
+            <div className="w-12 h-12 border-4 border-emerald-800/20 border-t-emerald-800 rounded-full animate-spin" />
           </div>
-        ) : filtered.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-            {filtered.map((product) => (
+        ) : (
+          <div className="editorial-grid">
+            {products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
-        ) : (
-          <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            className="text-center py-32 liquid-card !bg-white/40 border-dashed border-2 border-gray-200"
-          >
-            <div className="text-6xl mb-6 grayscale opacity-30">🧶</div>
-            <h3 className="text-xl font-bold text-gray-400 mb-2">No matching designs found</h3>
-            <p className="text-sm text-gray-300">Try adjusting your filters or search terms.</p>
-            <button 
-              onClick={() => {setActiveCategory("All"); setSearchTerm("");}}
-              className="mt-6 text-[#7FD8FF] font-black text-[10px] uppercase tracking-widest hover:underline"
-            >
-              Clear all filters
-            </button>
-          </motion.div>
         )}
       </section>
 
-      <FeedbackSection />
-      <AboutUs />
-      <Footer />
-
-      {/* Decorative Footer Shape */}
-      <div className="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-t from-white to-transparent pointer-events-none -z-10" />
+      {/* Narrative Section */}
+      <section className="py-32 bg-emerald-900 text-[var(--color-background)] overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 items-center gap-20">
+          <div className="relative aspect-[3/4] rounded-2xl overflow-hidden">
+            <Image
+                src="https://images.unsplash.com/photo-1584992236310-6edddc08acff?q=80&w=1974&auto=format&fit=crop"
+                alt="Woven Heritage"
+                fill
+                className="object-cover"
+            />
+          </div>
+          <div>
+             <h2 className="text-4xl md:text-6xl font-serif mb-8 leading-tight italic" style={{ fontFamily: "var(--font-noto-serif)" }}>
+               Woven with heritage, <br /> worn with pride.
+             </h2>
+             <p className="text-emerald-100/70 mb-12 text-lg leading-relaxed max-w-lg">
+               Every Vrindaa piece tells a story of patience, skill, and the human touch. Our mission is to preserve the art of crochet while empowering women artisans across India.
+             </p>
+             <button className="bg-[var(--color-background)] text-emerald-900 rounded-full px-8 py-4 text-sm font-bold uppercase tracking-widest hover:bg-white transition-colors">
+               Our Full Story
+             </button>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
