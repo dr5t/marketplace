@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import ProductCard from "@/components/product/ProductCard";
 import { collection, getDocs, query, limit } from "firebase/firestore";
-import { db } from "@/firebase-config";
+import { db } from "@/lib/firebase";
 
 export default function Home() {
   const [products, setProducts] = useState<any[]>([]);

@@ -3,8 +3,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ShoppingCart, Heart, Bell, LogOut, User, Crown } from "lucide-react";
-import LiquidButton from "../liquid/LiquidButton";
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/context/CartContext";
 

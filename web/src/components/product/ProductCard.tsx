@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 
 export default function ProductCard({ product }: { product: any }) {
-  const { addItem } = useCart();
+  const { addToCart } = useCart();
 
   return (
     <div className="group">
@@ -33,7 +33,7 @@ export default function ProductCard({ product }: { product: any }) {
       <div className="flex items-center justify-between">
         <p className="font-sans text-emerald-900 font-bold tracking-tight">${product.price}</p>
         <button 
-          onClick={() => addItem(product)}
+          onClick={() => addToCart(product)}
           className="text-[10px] font-bold uppercase tracking-widest text-emerald-800 hover:text-emerald-600 transition-colors flex items-center gap-1"
         >
           Add <span className="material-symbols-outlined text-sm">add</span>
