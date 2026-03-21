@@ -1,201 +1,182 @@
-"use client";
-  
-import Image from "next/image";
-import { useState } from "react";
-import dynamic from "next/dynamic";
-import { motion, AnimatePresence } from "framer-motion";
-import Blob from "@/components/liquid/Blob";
-import LiquidButton from "@/components/liquid/LiquidButton";
-import { ShoppingCart, Star, ArrowLeft, Heart, ShieldCheck, Truck, Cuboid as Cube } from "lucide-react";
-import Link from "next/link";
+'use client';
 
-const PLACEHOLDER_PRODUCT = {
-  id: "1",
-  title: "Hand-Knitted Boho Lavender Cardigan",
-  description: "Experience the ultimate comfort with our hand-knitted lavender cardigan. Made from 100% organic cotton, this piece features intricate floral patterns and a relaxed 'boho' fit. Perfect for spring evenings or cozy winter layering.\n\nEach piece is made-to-order by our artisan Maria, ensuring a unique touch for every customer.",
-  price: 2499,
-  stock: 5,
-  images: ["https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=1072&auto=format&fit=crop", "https://images.unsplash.com/photo-1576188973526-0e5d742990af?q=80&w=1080&auto=format&fit=crop"],
-  rating: 4.9,
-  reviewsCount: 128,
-  seller: { name: "Maria's Knits", rating: 4.8, storeUrl: "/seller/marias-knits" },
-  category: "Apparel"
-};
+import React, { useState } from 'react';
+import Image from 'next/image';
+import { useCart } from '@/context/CartContext';
+import ArtisanSpotlight from '@/components/product/ArtisanSpotlight';
+import ProductCard from '@/components/product/ProductCard';
 
-const Liquid3D = dynamic(() => import('@/components/liquid/Liquid3D'), {
-  ssr: false,
-  loading: () => <div className="w-full h-[400px] bg-sky-50 animate-pulse rounded-[3rem]" />
-});
+interface ProductDetailClientProps {
+  product: any;
+  relatedProducts: any[];
+}
 
-import { useCart } from "@/context/CartContext";
-
-export default function ProductDetailClient({ id }: { id: string }) {
+const ProductDetailClient = ({ product, relatedProducts }: ProductDetailClientProps) => {
   const { addToCart } = useCart();
-  const [activeImg, setActiveImg] = useState(0);
-  const [adding, setAdding]       = useState(false);
-  const [view3D, setView3D]       = useState(false);
-
-  const handleAddToCart = () => {
-    addToCart(PLACEHOLDER_PRODUCT as any);
-    setAdding(true);
-    setTimeout(() => setAdding(false), 2000);
-  };
+  const [selectedImage, setSelectedImage] = useState(0);
+  const [selectedColor, setSelectedColor] = useState(0);
 
   return (
-    <div className="relative min-h-screen px-6 py-24 max-w-7xl mx-auto">
-      <Blob className="w-[500px] h-[500px] -top-20 -right-20 opacity-20" gradient="var(--gradient-peach)" />
-      
-      <div className="relative z-10">
-        <Link href="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-gray-600 mb-8 transition-colors">
-          <ArrowLeft size={18} /> Back to Catalog
-        </Link>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 item-start">
-          {/* Gallery */}
-          <div className="space-y-6">
-            <div className="flex justify-between items-center mb-2">
-               <span className="text-sm font-bold text-gray-400">Visualization</span>
-               <LiquidButton 
-                 onClick={() => setView3D(!view3D)}
-                 className={`px-4 py-2 !text-xs`}
-                 variant={view3D ? "primary" : "ocean"}
-               >
-                 <Cube size={14} /> {view3D ? 'View Photos' : 'View in 3D'}
-               </LiquidButton>
-            </div>
-            
-            <motion.div 
-              layoutId="product-img"
-              className="liquid-card p-4 aspect-square overflow-hidden bg-white/50 backdrop-blur-sm relative"
-            >
-              {view3D ? (
-                <Liquid3D />
-              ) : (
-                <div className="relative w-full h-full rounded-2xl overflow-hidden">
-                  <Image 
-                    src={PLACEHOLDER_PRODUCT.images[activeImg]} 
-                    alt={PLACEHOLDER_PRODUCT.title}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              )}
-            </motion.div>
-            <div className="flex gap-4 overflow-x-auto pb-2">
-              {PLACEHOLDER_PRODUCT.images.map((img, i) => (
-                <button 
-                  key={i}
-                  onClick={() => setActiveImg(i)}
-                  className={`w-24 h-24 rounded-2xl overflow-hidden border-4 transition-all ${activeImg === i ? 'border-sky-300' : 'border-transparent'}`}
-                >
-                  <div className="relative w-full h-full">
-                    <Image 
-                      src={img} 
-                      alt={`${PLACEHOLDER_PRODUCT.title} thumbnail ${i}`}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                </button>
-              ))}
-            </div>
+    <div className="min-h-screen bg-[var(--color-background)] pt-32 pb-24">
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Main Product Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 mb-32">
+          
+          {/* Left: Images */}
+          <div className="lg:col-span-1 flex lg:flex-col gap-4 order-2 lg:order-1">
+            {product.images.map((img: string, idx: number) => (
+              <button
+                key={idx}
+                onClick={() => setSelectedImage(idx)}
+                className={`w-20 h-28 rounded-xl overflow-hidden border-2 transition-all ${
+                  selectedImage === idx ? 'border-primary' : 'border-transparent opacity-60'
+                }`}
+              >
+                <Image src={img} alt={`${product.title} ${idx}`} width={80} height={112} className="object-cover h-full" />
+              </button>
+            ))}
+            <button className="w-20 h-28 rounded-xl border-2 border-dashed border-stone-200 flex items-center justify-center text-stone-300">
+               <span className="material-symbols-outlined">add</span>
+            </button>
           </div>
 
-          {/* Info */}
-          <div className="space-y-8 py-4">
-            <div>
-              <div className="flex justify-between items-start mb-2">
-                <span className="text-xs font-bold text-sky-400 uppercase tracking-widest">{PLACEHOLDER_PRODUCT.category}</span>
-                <button className="p-3 bg-white shadow-sm rounded-full text-pink-400 hover:scale-110 active:scale-95 transition-all">
-                  <Heart size={20} />
-                </button>
-              </div>
-              <h1 className="text-5xl font-bold font-playfair mb-4 leading-tight product-name">{PLACEHOLDER_PRODUCT.title}</h1>
-              <div className="flex items-center gap-4 text-sm font-bold text-gray-400">
-                <div className="flex gap-1 text-orange-400">
-                  {[...Array(5)].map((_, i) => <Star key={i} size={14} fill={i < 4 ? "currentColor" : "none"} />)}
-                </div>
-                <span>{PLACEHOLDER_PRODUCT.rating} ({PLACEHOLDER_PRODUCT.reviewsCount} Reviews)</span>
-              </div>
-            </div>
+          <div className="lg:col-span-6 relative aspect-[3/4] rounded-3xl overflow-hidden shadow-soft mb-8 lg:mb-0 order-1 lg:order-2">
+            <Image
+              src={product.images[selectedImage]}
+              alt={product.title}
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
 
-            <p className="text-gray-500 leading-relaxed text-lg whitespace-pre-line product-description">
-              {PLACEHOLDER_PRODUCT.description}
+          {/* Right: Info */}
+          <div className="lg:col-span-5 flex flex-col order-3 lg:order-3">
+            <p className="font-sans text-[10px] font-bold uppercase tracking-widest text-stone-400 mb-4">
+              {product.category}
             </p>
-
-            <div className="flex items-baseline gap-4">
-              <span className="text-4xl font-bold text-gray-800">₹{PLACEHOLDER_PRODUCT.price}</span>
-              <span className="text-sm text-green-500 font-bold tracking-wide uppercase">In Stock ({PLACEHOLDER_PRODUCT.stock})</span>
-            </div>
-
-            <div className="flex gap-4">
-              <LiquidButton 
-                onClick={handleAddToCart}
-                disabled={adding}
-                className="flex-1 py-5 flex items-center justify-center gap-3 text-lg"
-              >
-                <AnimatePresence mode="wait">
-                  {adding ? (
-                    <motion.span 
-                      key="added"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                    >
-                      Added to Cart! 🎨
-                    </motion.span>
-                  ) : (
-                    <motion.span 
-                      key="add"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      className="flex items-center gap-3"
-                    >
-                      <ShoppingCart size={22} /> Add to Cart
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-              </LiquidButton>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4 mt-8">
-              <div className="p-4 rounded-3xl bg-gray-50 flex items-center gap-3">
-                <ShieldCheck className="text-sky-400" />
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-widest">Quality Check</p>
-                  <p className="text-[10px] text-gray-400">Artisan Verified</p>
-                </div>
+            <h1 className="text-4xl md:text-5xl font-headline font-bold text-primary mb-4 leading-tight">
+              {product.title}
+            </h1>
+            
+            <div className="flex items-center gap-4 mb-8">
+              <div className="flex text-[#f59e0b]">
+                {[...Array(5)].map((_, i) => (
+                  <span key={i} className={`material-symbols-outlined text-[18px] ${i < Math.floor(product.rating) ? 'FILL' : ''}`}>
+                    star
+                  </span>
+                ))}
               </div>
-              <div className="p-4 rounded-3xl bg-gray-50 flex items-center gap-3">
-                <Truck className="text-pink-400" />
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-widest">Free Shipping</p>
-                  <p className="text-[10px] text-gray-400">On orders over ₹999</p>
-                </div>
-              </div>
+              <span className="text-sm text-stone-400 font-medium">({product.reviews} reviews)</span>
             </div>
 
-            {/* Seller Info Card */}
-            <div className="p-6 rounded-3xl bg-gradient-to-br from-white to-sky-50/50 border border-white shadow-soft flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-sky-200 to-purple-200 flex items-center justify-center font-bold text-white text-xl">
-                  {PLACEHOLDER_PRODUCT.seller.name[0]}
-                </div>
-                <div>
-                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Handcrafted by</p>
-                  <p className="text-lg font-bold text-gray-800">{PLACEHOLDER_PRODUCT.seller.name}</p>
-                </div>
-              </div>
-              <Link href={PLACEHOLDER_PRODUCT.seller.storeUrl}>
-                <LiquidButton className="px-5 py-2 !text-sm">
-                  Visit Store
-                </LiquidButton>
-              </Link>
+            <div className="text-3xl font-headline text-primary mb-12">
+               ₹ {product.price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
             </div>
+
+            <div className="mb-12">
+               <p className="text-[10px] font-bold uppercase tracking-widest text-stone-400 mb-6">Choose your yarn</p>
+               <div className="flex items-center gap-4">
+                  {product.colors.map((color: any, idx: number) => (
+                    <button
+                      key={color.name}
+                      onClick={() => setSelectedColor(idx)}
+                      className={`w-10 h-10 rounded-full border-4 transition-all ${
+                        selectedColor === idx ? 'border-primary shadow-md' : 'border-white'
+                      }`}
+                      style={{ backgroundColor: color.code }}
+                      title={color.name}
+                    />
+                  ))}
+               </div>
+            </div>
+
+            <div className="flex flex-col gap-4 mb-16">
+               <button 
+                 onClick={() => addToCart({ id: product.id as string, title: product.title, price: product.price, images: [product.images[0]] })}
+                 className="w-full bg-primary text-white rounded-full py-5 font-bold uppercase tracking-widest text-sm flex items-center justify-center gap-3 shadow-xl hover:shadow-2xl transition-all"
+               >
+                 <span className="material-symbols-outlined">shopping_bag</span>
+                 Add to Yarn Basket
+               </button>
+               <button className="w-full bg-[var(--color-surface-card)] text-primary border border-stone-100 rounded-full py-5 font-bold uppercase tracking-widest text-sm flex items-center justify-center gap-3 shadow-sm hover:bg-stone-50 transition-all">
+                 <span className="material-symbols-outlined">favorite</span>
+                 Add to Wishlist
+               </button>
+            </div>
+
+            <ArtisanSpotlight 
+              name={product.artisan.name}
+              image={product.artisan.image}
+              bio={product.artisan.bio}
+            />
+
+            <div className="mt-12 p-8 bg-[var(--color-surface-card)] rounded-3xl border border-stone-100/50 flex items-center justify-between">
+               <div>
+                  <h4 className="font-bold text-primary mb-1">Secure Checkout</h4>
+                  <p className="text-xs text-stone-400">Insured payment & zero hassle returns door-to-door.</p>
+               </div>
+               <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center border border-stone-100">
+                  <span className="material-symbols-outlined text-stone-300">qr_code_2</span>
+               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Story Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-32">
+          <div className="order-2 lg:order-1">
+            <h2 className="text-3xl md:text-4xl font-headline font-bold text-primary mb-8 leading-tight italic">
+              Every stitch tells a story <br /> of patience and intent.
+            </h2>
+            <div className="space-y-6 mb-12">
+               <p className="text-stone-600 leading-relaxed italic text-lg">{product.description}</p>
+               <p className="text-stone-500 leading-relaxed text-sm">{product.details}</p>
+            </div>
+            <div className="grid grid-cols-3 gap-8 pt-8 border-t border-stone-100">
+               {product.stats.map((stat: any) => (
+                 <div key={stat.label}>
+                    <p className="text-2xl font-headline text-primary mb-1">{stat.value}</p>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-stone-400">{stat.label}</p>
+                 </div>
+               ))}
+            </div>
+          </div>
+          <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-soft order-1 lg:order-2">
+            <Image
+              src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1200&auto=format&fit=crop"
+              alt="Artisan at work"
+              fill
+              className="object-cover"
+            />
+          </div>
+        </div>
+
+        {/* Recommendations */}
+        <div className="border-t border-stone-100 pt-24">
+          <div className="flex justify-between items-end mb-16">
+             <div>
+                <p className="font-sans text-[10px] font-bold uppercase tracking-widest text-stone-400 mb-3">Complete the look</p>
+                <h2 className="text-3xl font-headline text-primary">You Might Also Like</h2>
+             </div>
+             <div className="flex gap-4">
+                <button className="w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 hover:border-primary hover:text-primary transition-all">
+                   <span className="material-symbols-outlined text-sm">west</span>
+                </button>
+                <button className="w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 hover:border-primary hover:text-primary transition-all">
+                   <span className="material-symbols-outlined text-sm">east</span>
+                </button>
+             </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+             {relatedProducts.map((p: any) => (
+                <ProductCard key={p.id} product={p} />
+             ))}
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default ProductDetailClient;
