@@ -21,8 +21,10 @@
   --font-headline: 'Noto Serif', serif;
   --font-body: 'Manrope', sans-serif;
   --font-label: 'Manrope', sans-serif;
-
-  --shadow-soft: 0 8px 30px rgba(56, 56, 51, 0.06);
+  --color-surface-card: #fffcf7;
+  --color-text-muted: #888880;
+  --color-gold: #c5a572;
+  --shadow-soft: 0 8px 30px rgba(56, 56, 51, 0.05);
   --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.03);
   
   --radius-xl: 0.75rem;

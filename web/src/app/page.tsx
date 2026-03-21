@@ -61,57 +61,101 @@ export default function Home() {
     setLoading(false);
   }, []);
 
+  const categories = [
+    { name: 'Bags', img: 'https://images.unsplash.com/photo-1590739225287-bd31519780c3?q=80&w=200&auto=format&fit=crop' },
+    { name: 'Toys', img: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=200&auto=format&fit=crop' },
+    { name: 'Clothing', img: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=200&auto=format&fit=crop' },
+    { name: 'Decor', img: 'https://images.unsplash.com/photo-1584992236310-6edddc08acff?q=80&w=200&auto=format&fit=crop' },
+    { name: 'New', img: 'https://images.unsplash.com/photo-1620799140188-3b2a02fd9a77?q=80&w=200&auto=format&fit=crop' },
+  ];
+
   return (
-    <div className="min-h-screen bg-[var(--color-background)]">
+    <div className="min-h-screen bg-[var(--color-background)] pb-20 md:pb-0">
       {/* Hero Section */}
-      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
-        {/* Hero Background Image */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=2072&auto=format&fit=crop"
-            alt="Crochet Texture"
-            fill
-            className="object-cover opacity-30 grayscale"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[var(--color-background)]" />
+      <section className="relative pt-24 md:pt-0">
+        {/* Mobile Banner Card */}
+        <div className="md:hidden px-6 mb-8">
+          <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden group shadow-xl">
+            <Image
+              src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=1000&auto=format&fit=crop"
+              alt="Vrindaa Banner"
+              fill
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-black/20" />
+            <div className="absolute bottom-10 left-8 right-8">
+              <h1 className="text-4xl font-headline font-bold text-white mb-6 leading-tight">
+                Woven with <br /> intention.
+              </h1>
+              <Link href="/shop">
+                <button className="bg-white/20 backdrop-blur-md text-white border border-white/30 rounded-full px-6 py-3 text-sm font-bold flex items-center gap-2">
+                  Shop Collection <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                </button>
+              </Link>
+            </div>
+          </div>
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="font-serif italic text-emerald-800 text-xl md:text-2xl mb-6"
-            style={{ fontFamily: "var(--font-noto-serif)" }}
-          >
-            Modern Crochet for the Conscious Soul
-          </motion.p>
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-6xl md:text-8xl lg:text-9xl text-emerald-900 font-bold mb-8 tracking-tighter"
-            style={{ fontFamily: "var(--font-noto-serif)" }}
-          >
-            The Artisanal <br /> Thread
-          </motion.h1>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex flex-col md:flex-row items-center justify-center gap-8 mt-12"
-          >
-            <p className="max-w-md text-stone-600 text-sm leading-relaxed text-left border-l border-emerald-800/20 pl-6">
-              Vrindaa honors the slow-craft movement, bringing you handcrafted pieces that bridge the gap between traditional heritage and contemporary design.
-            </p>
-            <Link href="/category/all">
-               <button className="liquid-btn">
-                 Shop Collection
-                 <span className="material-symbols-outlined ml-2 text-sm">arrow_forward</span>
-               </button>
-            </Link>
-          </motion.div>
+        {/* Mobile Categories */}
+        <div className="md:hidden flex overflow-x-auto gap-6 px-6 no-scrollbar pb-4 mb-8">
+          {categories.map((cat) => (
+            <div key={cat.name} className="flex flex-col items-center gap-2 flex-shrink-0">
+              <div className="w-16 h-16 rounded-full overflow-hidden border border-stone-100 shadow-sm relative">
+                <Image src={cat.img} alt={cat.name} fill className="object-cover" />
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-stone-400">{cat.name}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop Hero Section */}
+        <div className="hidden md:flex relative h-[90vh] items-center justify-center overflow-hidden">
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=2072&auto=format&fit=crop"
+              alt="Crochet Texture"
+              fill
+              className="object-cover opacity-30 grayscale"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[var(--color-background)]" />
+          </div>
+
+          <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="font-serif italic text-emerald-800 text-xl md:text-2xl mb-6"
+            >
+              Modern Crochet for the Conscious Soul
+            </motion.p>
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-6xl md:text-8xl lg:text-9xl text-emerald-900 font-bold mb-8 tracking-tighter font-headline"
+            >
+              The Artisanal <br /> Thread
+            </motion.h1>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="flex flex-col md:flex-row items-center justify-center gap-8 mt-12"
+            >
+              <p className="max-w-md text-stone-600 text-sm leading-relaxed text-left border-l border-emerald-800/20 pl-6">
+                Vrindaa honors the slow-craft movement, bringing you handcrafted pieces that bridge the gap between traditional heritage and contemporary design.
+              </p>
+              <Link href="/shop">
+                 <button className="liquid-btn">
+                   Shop Collection
+                   <span className="material-symbols-outlined ml-2 text-sm">arrow_forward</span>
+                 </button>
+              </Link>
+            </motion.div>
+          </div>
         </div>
       </section>
 
