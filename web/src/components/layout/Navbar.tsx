@@ -13,79 +13,42 @@ export default function Navbar() {
   const { totalItems } = useCart();
 
   return (
-    <div className="fixed top-6 left-0 right-0 z-50 px-6 pointer-events-none">
-      <motion.nav
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.2 }}
-        className="max-w-7xl mx-auto glass-nav px-8 py-3 flex items-center justify-between shadow-2xl shadow-blue-500/5 pointer-events-auto"
-      >
-        <Link href="/" className="flex items-center gap-2">
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="relative w-9 h-9 rounded-full overflow-hidden shadow-inner border border-white/80"
-          >
-            <Image 
-                src="/logo.png" 
-                alt="Vrindaa Logo" 
-                fill 
-                className="object-cover"
-            />
-          </motion.div>
-          <motion.span
-            whileHover={{ scale: 1.02 }}
-            className="text-xl font-bold hidden sm:block tracking-tight text-[#4B0082]"
-            style={{ fontFamily: "'Playfair Display', serif" }}
-          >
-            Vrindaa
-          </motion.span>
+    <nav className="fixed top-6 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl z-50 rounded-full bg-white/80 glass-nav shadow-[0_8px_30px_rgb(56,56,51,0.06)] flex justify-between items-center px-8 py-3 pointer-events-auto">
+      <div className="flex items-center gap-8">
+        <Link href="/" className="text-2xl font-serif font-bold text-emerald-900 tracking-tighter" style={{ fontFamily: "var(--font-noto-serif)" }}>
+          Vrindaa Crochet
         </Link>
-
-        <div className="hidden md:flex items-center gap-10 text-[11px] font-black text-gray-400 uppercase tracking-[0.2em]">
-          <Link href="/" className="hover:text-[#7FD8FF] transition-all hover:translate-y-[-1px]">Shop</Link>
-          <Link href="/seller" className="hover:text-[#7FD8FF] transition-all hover:translate-y-[-1px]">Sellers</Link>
-          <Link href="#about-us" className="hover:text-[#7FD8FF] transition-all hover:translate-y-[-1px]">About</Link>
-          <Link href="#" className="hover:text-[#7FD8FF] transition-all hover:translate-y-[-1px] opacity-40">Support</Link>
+        <div className="hidden md:flex items-center gap-6 font-sans text-sm tracking-wide font-medium">
+          <Link href="/category/bags" className="text-stone-600 hover:text-emerald-800 transition-colors">Bags</Link>
+          <Link href="/category/toys" className="text-stone-600 hover:text-emerald-800 transition-colors">Toys</Link>
+          <Link href="/category/clothing" className="text-stone-600 hover:text-emerald-800 transition-colors">Clothing</Link>
+          <Link href="/category/decor" className="text-emerald-900 font-bold border-b-2 border-emerald-800 pb-1">Decor</Link>
+          <Link href="/story" className="text-stone-600 hover:text-emerald-800 transition-colors">Story</Link>
         </div>
+      </div>
 
-        <div className="flex items-center gap-4">
-          <div className="hidden sm:flex items-center gap-2 pr-4 border-r border-gray-100">
-             <motion.button whileHover={{ y: -2 }} className="p-2 text-gray-400 hover:text-[#7FD8FF] transition-colors"><Bell size={18} /></motion.button>
-             <motion.button whileHover={{ y: -2 }} className="p-2 text-gray-400 hover:text-[#FFC8A2] transition-colors"><Heart size={18} /></motion.button>
-          </div>
-
-          <Link href="/cart" className="relative p-2 text-gray-500 hover:text-var(--color-deep-purple) group transition-all">
-            <ShoppingCart size={20} strokeWidth={1.5} />
+      <div className="flex items-center gap-5 text-emerald-800">
+        <button className="material-symbols-outlined hover:opacity-80 transition-opacity">favorite</button>
+        <Link href="/cart" className="relative flex items-center">
+            <span className="material-symbols-outlined hover:opacity-80 transition-opacity">shopping_bag</span>
             {totalItems > 0 && (
-              <motion.span 
-                initial={{ scale: 0 }} 
-                animate={{ scale: 1 }} 
-                className="absolute -top-1 -right-0.5 w-4 h-4 bg-red-500 text-white text-[9px] font-black rounded-full flex items-center justify-center shadow-lg border-2 border-white"
-              >
+              <span className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-700 text-white text-[9px] font-bold rounded-full flex items-center justify-center">
                 {totalItems}
-              </motion.span>
+              </span>
             )}
-          </Link>
-          
-          {user ? (
+        </Link>
+        
+        {user ? (
             <div className="flex items-center gap-3">
-              {user.role === 'ADMIN' && (
-                <Link href="/admin" className="p-2 text-amber-400 hover:scale-110 transition-transform"><Crown size={18} /></Link>
-              )}
-              <div className="w-8 h-8 rounded-full bg-var(--color-peach) flex items-center justify-center text-var(--color-coffee) font-black text-[10px] shadow-sm border border-white/50">
+              <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-900 font-bold text-xs">
                 {user.displayName?.charAt(0) || user.email?.charAt(0)}
               </div>
-              <motion.button onClick={() => logout()} whileHover={{ scale: 1.1 }} className="p-2 text-red-300 hover:text-red-400"><LogOut size={18} /></motion.button>
+              <button onClick={() => logout()} className="material-symbols-outlined text-red-400 hover:text-red-500">logout</button>
             </div>
-          ) : (
-            <Link href="/login">
-               <LiquidButton className="!px-6 !py-2.5 !text-[10px] !font-black !uppercase !tracking-widest !bg-var(--color-coffee) !shadow-none">
-                 Login
-               </LiquidButton>
-            </Link>
-          )}
-        </div>
-      </motion.nav>
-    </div>
+        ) : (
+            <Link href="/login" className="material-symbols-outlined hover:opacity-80 transition-opacity">person</Link>
+        )}
+      </div>
+    </nav>
   );
 }

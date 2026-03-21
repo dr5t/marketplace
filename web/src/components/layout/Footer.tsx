@@ -1,40 +1,47 @@
-"use client";
-
-import Link from "next/link";
-import { motion } from "framer-motion";
-
-const FOOTER_LINKS = ["Home", "hot picks", "collection", "about us", "support"];
-
 export default function Footer() {
   return (
-    <footer className="relative z-10 bg-white/40 backdrop-blur-md pt-24 pb-12 border-t border-white/60">
-      <div className="max-w-7xl mx-auto px-6 flex flex-col items-center">
-        <div className="flex flex-wrap justify-center mb-12 gap-8 md:gap-12">
-          {FOOTER_LINKS.map((link) => (
-            <Link 
-              key={link} 
-              href={`/${link.toLowerCase().replace(" ", "-")}`}
-              className="text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] hover:text-[#7FD8FF] transition-colors"
-            >
-              <motion.span whileHover={{ y: -2 }} className="inline-block">
-                {link}
-              </motion.span>
-            </Link>
-          ))}
+    <footer className="w-full mt-20 rounded-t-[3rem] bg-stone-50 border-t border-stone-200/30">
+      <div className="max-w-7xl mx-auto px-12 py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
+        <div className="col-span-1 md:col-span-1">
+          <h2 className="text-xl font-serif text-emerald-900 mb-6" style={{ fontFamily: "var(--font-noto-serif)" }}>Vrindaa Crochet</h2>
+          <p className="font-body text-sm text-stone-600 leading-relaxed">Honoring the heritage of handmade craft through modern silhouettes and sustainable fibers.</p>
         </div>
-
-        <div className="flex flex-col items-center gap-4 text-center">
-           <div className="flex items-center gap-2 opacity-30 grayscale saturate-0 mb-2">
-             <svg width="24" height="24" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M30 30C30 30 20 40 20 60C20 80 40 85 50 75C60 85 80 80 80 60C80 40 70 30 70 30" stroke="currentColor" strokeWidth="4" />
-             </svg>
-             <span className="text-xs font-black tracking-widest uppercase">Vrindaa</span>
-           </div>
-           <p className="text-[10px] font-bold text-gray-300 uppercase tracking-widest">
-             © 2026 createdbyaa, Inc. All rights reserved.
-           </p>
+        <div>
+          <h4 className="font-serif italic text-emerald-800 mb-6" style={{ fontFamily: "var(--font-noto-serif)" }}>Shop</h4>
+          <ul className="space-y-4 font-body text-sm text-stone-600">
+            <li><Link className="hover:text-emerald-700 hover:translate-x-1 transition-all block" href="/new-arrivals">New Arrivals</Link></li>
+            <li><Link className="hover:text-emerald-700 hover:translate-x-1 transition-all block" href="/custom-orders">Custom Orders</Link></li>
+            <li><Link className="hover:text-emerald-700 hover:translate-x-1 transition-all block" href="/best-sellers">Best Sellers</Link></li>
+            <li><Link className="hover:text-emerald-700 hover:translate-x-1 transition-all block" href="/gift-cards">Gift Cards</Link></li>
+          </ul>
+        </div>
+        <div>
+          <h4 className="font-serif italic text-emerald-800 mb-6" style={{ fontFamily: "var(--font-noto-serif)" }}>Support</h4>
+          <ul className="space-y-4 font-body text-sm text-stone-600">
+            <li><Link className="hover:text-emerald-700 hover:translate-x-1 transition-all block" href="/shipping">Shipping</Link></li>
+            <li><Link className="hover:text-emerald-700 hover:translate-x-1 transition-all block" href="/returns">Returns</Link></li>
+            <li><Link className="hover:text-emerald-700 hover:translate-x-1 transition-all block" href="/contact">Contact</Link></li>
+            <li><Link className="hover:text-emerald-700 hover:translate-x-1 transition-all block" href="/care-guide">Care Guide</Link></li>
+          </ul>
+        </div>
+        <div>
+          <h4 className="font-serif italic text-emerald-800 mb-6" style={{ fontFamily: "var(--font-noto-serif)" }}>Join Us</h4>
+          <p className="font-body text-sm text-stone-600 mb-4">Be the first to hear about new limited releases.</p>
+          <div className="flex gap-2">
+            <input className="bg-white border border-stone-200 rounded-full px-4 py-2 text-sm flex-1 focus:ring-1 focus:ring-emerald-500/20 outline-none" placeholder="Email" type="email"/>
+            <button className="bg-emerald-800 text-white rounded-full px-5 py-2 text-sm font-bold hover:bg-emerald-900 transition-colors">Join</button>
+          </div>
+        </div>
+      </div>
+      <div className="max-w-7xl mx-auto px-12 py-8 border-t border-stone-200/30 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p className="font-body text-xs text-stone-500">© 2026 Vrindaa Crochet. Woven with love.</p>
+        <div className="flex gap-6">
+          <button className="text-stone-400 hover:text-emerald-600 transition-colors"><span className="material-symbols-outlined">language</span></button>
+          <button className="text-stone-400 hover:text-emerald-600 transition-colors"><span className="material-symbols-outlined">share</span></button>
         </div>
       </div>
     </footer>
+  );
+}
   );
 }
