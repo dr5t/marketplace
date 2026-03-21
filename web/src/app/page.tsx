@@ -13,23 +13,52 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const q = query(collection(db, "products"), limit(8));
-        const querySnapshot = await getDocs(q);
-        const productsData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setProducts(productsData);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      } finally {
-        setLoading(false);
+    const mockProducts = [
+      {
+        id: "1",
+        title: "Artisanal Tote Bag",
+        price: 45,
+        category: "Bags",
+        images: ["https://images.unsplash.com/photo-1590739225287-bd31519780c3?q=80&w=1974&auto=format&fit=crop"],
+      },
+      {
+        id: "2",
+        title: "Hand-Knitted Plushie",
+        price: 32,
+        category: "Toys",
+        images: ["https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=2072&auto=format&fit=crop"],
+      },
+      {
+        id: "3",
+        title: "Boho Wall Hanging",
+        price: 58,
+        category: "Decor",
+        images: ["https://images.unsplash.com/photo-1584992236310-6edddc08acff?q=80&w=1974&auto=format&fit=crop"],
+      },
+      {
+        id: "4",
+        title: "Crochet Summer Top",
+        price: 75,
+        category: "Clothing",
+        images: ["https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2000&auto=format&fit=crop"],
+      },
+      {
+        id: "5",
+        title: "Vintage Bloom Cardigan",
+        price: 120,
+        category: "Clothing",
+        images: ["https://images.unsplash.com/photo-1620799140188-3b2a02fd9a77?q=80&w=1972&auto=format&fit=crop"],
+      },
+      {
+        id: "6",
+        title: "Shell Bucket Hat",
+        price: 28,
+        category: "Accessories",
+        images: ["https://images.unsplash.com/photo-1575428652377-a2d80e2277fc?q=80&w=2070&auto=format&fit=crop"],
       }
-    };
-
-    fetchProducts();
+    ];
+    setProducts(mockProducts);
+    setLoading(false);
   }, []);
 
   return (
